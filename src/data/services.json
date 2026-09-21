@@ -1,0 +1,113 @@
+[
+  {
+    "id": "real-estate",
+    "order": 1,
+    "name": {
+      "en": "Real Estate Valuation",
+      "km": "ការវាយតម្លៃអចលនទ្រព្យ"
+    },
+    "shortName": {
+      "en": "Real estate",
+      "km": "អចលនទ្រព្យ"
+    },
+    "summary": {
+      "en": "Residential, commercial, industrial, agricultural and government property — assessed accurately for transactions, lending, financial reporting and dispute resolution.",
+      "km": "អចលនទ្រព្យលំនៅឋាន ពាណិជ្ជកម្ម ឧស្សាហកម្ម កសិកម្ម និងរដ្ឋ — វាយតម្លៃយ៉ាងត្រឹមត្រូវសម្រាប់ប្រតិបត្តិការ ការផ្តល់ឥណទាន របាយការណ៍ហិរញ្ញវត្ថុ និងការដោះស្រាយវិវាទ។"
+    },
+    "intro": {
+      "en": "Land and buildings are the most commonly valued assets in Cambodia and the most consequential to get wrong. Every real estate engagement we accept is evidenced against our own transaction database and reported to IVS and RICS, so the figure holds up under scrutiny — in a credit committee, an audit file, or a court.",
+      "km": "ដីធ្លី និងអគារគឺជាទ្រព្យសកម្មដែលត្រូវបានវាយតម្លៃច្រើនជាងគេនៅកម្ពុជា និងជាទ្រព្យដែលមានផលវិបាកធ្ងន់ធ្ងរបំផុតប្រសិនបើវាយតម្លៃខុស។ រាល់ការងារវាយតម្លៃអចលនទ្រព្យដែលយើងទទួល ត្រូវបានផ្ទៀងផ្ទាត់ជាមួយមូលដ្ឋានទិន្នន័យប្រតិបត្តិការរបស់យើងផ្ទាល់ និងរាយការណ៍តាមស្តង់ដារ IVS និង RICS។"
+    },
+    "assetTypes": [
+      { "en": "Residential", "km": "លំនៅឋាន" },
+      { "en": "Commercial", "km": "ពាណិជ្ជកម្ម" },
+      { "en": "Industrial", "km": "ឧស្សាហកម្ម" },
+      { "en": "Agricultural", "km": "កសិកម្ម" },
+      { "en": "Government", "km": "រដ្ឋ" }
+    ],
+    "purposes": [
+      { "en": "Lending and mortgage security", "km": "ការផ្តល់ឥណទាន និងវត្ថុបញ្ចាំ" },
+      { "en": "Financial reporting", "km": "របាយការណ៍ហិរញ្ញវត្ថុ" },
+      { "en": "Sale and purchase", "km": "ការទិញ និងលក់" },
+      { "en": "Dispute resolution", "km": "ការដោះស្រាយវិវាទ" }
+    ],
+    "image": "",
+    "imageAlt": {
+      "en": "Residential and commercial buildings in Phnom Penh",
+      "km": "អគារលំនៅឋាន និងពាណិជ្ជកម្មនៅភ្នំពេញ"
+    }
+  },
+  {
+    "id": "plant-equipment",
+    "order": 2,
+    "name": {
+      "en": "Plant & Equipment Valuation",
+      "km": "ការវាយតម្លៃគ្រឿងចក្រ និងឧបករណ៍"
+    },
+    "shortName": {
+      "en": "Plant & equipment",
+      "km": "គ្រឿងចក្រ និងឧបករណ៍"
+    },
+    "summary": {
+      "en": "Fair market value for the machinery your business runs on — supporting financial reporting, insurance cover, M&A and asset-backed financing.",
+      "km": "តម្លៃទីផ្សារសមរម្យសម្រាប់គ្រឿងចក្រដែលអាជីវកម្មរបស់អ្នកដំណើរការ — គាំទ្ររបាយការណ៍ហិរញ្ញវត្ថុ ការធានារ៉ាប់រង ការរួមបញ្ចូល និងទិញយក និងហិរញ្ញប្បទានដោយទ្រព្យសកម្ម។"
+    },
+    "intro": {
+      "en": "Machinery rarely trades on an open market, so its value has to be built from cost, condition, remaining life and the specific basis the report is for. We inspect on site, and we state the basis of value plainly — because a number quoted on the wrong basis is worse than no number at all.",
+      "km": "គ្រឿងចក្រកម្រត្រូវបានជួញដូរនៅលើទីផ្សារបើកចំហ ដូច្នេះតម្លៃរបស់វាត្រូវកសាងឡើងពីថ្លៃដើម ស្ថានភាព អាយុកាលនៅសល់ និងមូលដ្ឋានជាក់លាក់នៃរបាយការណ៍។ យើងពិនិត្យនៅនឹងកន្លែង ហើយបញ្ជាក់មូលដ្ឋាននៃតម្លៃយ៉ាងច្បាស់លាស់។"
+    },
+    "assetTypes": [
+      { "en": "Plant machinery", "km": "គ្រឿងចក្ររោងចក្រ" },
+      { "en": "Machinery systems", "km": "ប្រព័ន្ធគ្រឿងចក្រ" },
+      { "en": "Equipment", "km": "ឧបករណ៍" }
+    ],
+    "purposes": [
+      { "en": "Financial reporting", "km": "របាយការណ៍ហិរញ្ញវត្ថុ" },
+      { "en": "Insurance cover", "km": "ការធានារ៉ាប់រង" },
+      { "en": "Mergers and acquisitions", "km": "ការរួមបញ្ចូល និងទិញយក" },
+      { "en": "Asset-backed financing", "km": "ហិរញ្ញប្បទានដោយទ្រព្យសកម្ម" }
+    ],
+    "image": "",
+    "imageAlt": {
+      "en": "Industrial machinery on a factory floor",
+      "km": "គ្រឿងចក្រឧស្សាហកម្មនៅក្នុងរោងចក្រ"
+    }
+  },
+  {
+    "id": "business",
+    "order": 3,
+    "name": {
+      "en": "Business Valuation",
+      "km": "ការវាយតម្លៃអាជីវកម្ម"
+    },
+    "shortName": {
+      "en": "Business",
+      "km": "អាជីវកម្ម"
+    },
+    "summary": {
+      "en": "Clear insight into what an enterprise is actually worth — from operating companies to trademarks and patents, for acquisitions, reporting and strategic planning.",
+      "km": "ការយល់ដឹងច្បាស់លាស់អំពីតម្លៃពិតប្រាកដនៃសហគ្រាស — ចាប់ពីក្រុមហ៊ុនប្រតិបត្តិការ រហូតដល់ម៉ាកសញ្ញា និងប៉ាតង់ សម្រាប់ការទិញយក របាយការណ៍ និងផែនការយុទ្ធសាស្ត្រ។"
+    },
+    "intro": {
+      "en": "A business is worth what its future earnings justify, tested against what comparable businesses actually change hands for. We work from audited numbers where they exist and say so clearly where they do not — including for intangible assets such as trademarks and patents.",
+      "km": "អាជីវកម្មមួយមានតម្លៃស្មើនឹងអ្វីដែលប្រាក់ចំណូលអនាគតរបស់វាបញ្ជាក់ ដោយប្រៀបធៀបជាមួយអាជីវកម្មស្រដៀងគ្នាដែលបានជួញដូរជាក់ស្តែង។ យើងធ្វើការពីតួលេខដែលបានធ្វើសវនកម្ម ហើយបញ្ជាក់យ៉ាងច្បាស់នៅពេលដែលមិនមាន។"
+    },
+    "assetTypes": [
+      { "en": "Enterprises", "km": "សហគ្រាស" },
+      { "en": "Financial institutions", "km": "ស្ថាប័នហិរញ្ញវត្ថុ" },
+      { "en": "Trademarks", "km": "ម៉ាកសញ្ញា" },
+      { "en": "Patents", "km": "ប៉ាតង់" }
+    ],
+    "purposes": [
+      { "en": "Acquisition and disposal", "km": "ការទិញយក និងលក់ចេញ" },
+      { "en": "Financial reporting", "km": "របាយការណ៍ហិរញ្ញវត្ថុ" },
+      { "en": "Strategic planning", "km": "ផែនការយុទ្ធសាស្ត្រ" },
+      { "en": "Shareholder disputes", "km": "វិវាទម្ចាស់ភាគហ៊ុន" }
+    ],
+    "image": "",
+    "imageAlt": {
+      "en": "A boardroom table with financial documents",
+      "km": "តុប្រជុំជាមួយឯកសារហិរញ្ញវត្ថុ"
+    }
+  }
+]

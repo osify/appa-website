@@ -1,0 +1,194 @@
+---
+/**
+ * Contact details, and the panel that invites the visitor to write to us.
+ *
+ * There is deliberately no enquiry form. The site is served from GitHub Pages,
+ * which runs no software of its own, so every route out of this page is one the
+ * visitor's own device opens: a mailto: link, a tel: link, or a t.me deep link
+ * their Telegram app handles. Nothing here needs a server, a token or a
+ * third-party form service.
+ */
+import HolidayList from '../HolidayList.astro';
+import Icon from '../Icon.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+import { site } from '../../lib/content';
+import { pick, useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  showHeading?: boolean;
+}
+
+const { lang, showHeading = true } = Astro.props;
+const t = useTranslations(lang);
+
+const addressLines = pick(site.contact.address, lang).split('\n');
+const hours = pick(site.contact.hours, lang);
+const telegramLabel = site.contact.telegramDisplay || t('contact.telegram');
+---
+
+<section id="contact" class="relative overflow-hidden bg-navy-900 py-24 lg:py-36">
+  <div class="barcode barcode-soft pointer-events-none absolute right-0 top-0 h-full w-1/4 text-gold-500 opacity-[0.05]"></div>
+
+  <div class="relative mx-auto max-w-content px-6 lg:px-10">
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-20">
+      <div class="lg:col-span-5">
+        {
+          showHeading && (
+            <SectionHeading
+              tone="dark"
+              eyebrow={t('contact.eyebrow')}
+              titleHtml={t('contact.titleHtml')}
+              sub={t('contact.sub')}
+            />
+          )
+        }
+
+        <div class="reveal mt-12 space-y-7">
+          <div class="flex gap-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06]">
+              <Icon name="map-pin" class="w-4 h-4 text-gold-500" />
+            </div>
+            <div>
+              <h3 class="microlabel mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35">
+                {t('contact.office')}
+              </h3>
+              <address class="not-italic leading-relaxed text-white/80">
+                {addressLines.map((line, index) => (
+                  <>
+                    {index > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </address>
+              {
+                site.contact.mapUrl && (
+                  <a
+                    href={site.contact.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-2 inline-flex items-center gap-1.5 text-sm text-gold-400 transition-colors hover:text-gold-300"
+                  >
+                    {t('contact.mapLink')}
+                    <Icon name="external" class="w-3.5 h-3.5" />
+                  </a>
+                )
+              }
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06]">
+              <Icon name="phone" class="w-4 h-4 text-gold-500" />
+            </div>
+            <div>
+              <h3 class="microlabel mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35">
+                {t('contact.tel')}
+              </h3>
+              {
+                site.contact.phones.map((phone) => (
+                  <a
+                    href={phone.href}
+                    class="block text-white/80 transition-colors hover:text-gold-400"
+                  >
+                    {phone.display}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06]">
+              <Icon name="mail" class="w-4 h-4 text-gold-500" />
+            </div>
+            <div>
+              <h3 class="microlabel mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35">
+                {t('contact.email')}
+              </h3>
+              <a
+                href={`mailto:${site.contact.email}`}
+                class="text-white/80 transition-colors hover:text-gold-400"
+              >
+                {site.contact.email}
+              </a>
+            </div>
+          </div>
+
+          {
+            hours && (
+              <div class="flex gap-4">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06]">
+                  <Icon name="clock" class="w-4 h-4 text-gold-500" />
+                </div>
+                <div>
+                  <h3 class="microlabel mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35">
+                    {t('contact.hours')}
+                  </h3>
+                  <p class="leading-relaxed text-white/80">{hours}</p>
+                </div>
+              </div>
+            )
+          }
+        </div>
+
+        <div class="reveal mt-12 border-t border-white/10 pt-10">
+          <HolidayList lang={lang} tone="dark" />
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="reveal rounded-3xl bg-white p-8 lg:p-10">
+          <h3 class="font-serif text-2xl font-semibold text-navy-900 lg:text-3xl">
+            {t('contact.direct.title')}
+          </h3>
+          <p class="mt-3 leading-relaxed text-slate-500">{t('contact.direct.body')}</p>
+
+          <div class="mt-8 space-y-3">
+            <a
+              href={`mailto:${site.contact.email}`}
+              class="group flex items-center gap-4 rounded-2xl bg-navy-900 px-6 py-5 text-white transition hover:bg-navy-800"
+            >
+              <Icon name="mail" class="w-5 h-5 shrink-0 text-gold-500" />
+              <span class="min-w-0">
+                <span class="microlabel block text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+                  {t('contact.email')}
+                </span>
+                <span class="block truncate font-semibold">{site.contact.email}</span>
+              </span>
+              <Icon
+                name="arrow-right"
+                class="w-4 h-4 ml-auto shrink-0 text-gold-500 transition-transform group-hover:translate-x-1"
+              />
+            </a>
+
+            {
+              site.contact.telegram && (
+                <a
+                  href={site.contact.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group flex items-center gap-4 rounded-2xl border border-navy-900/10 px-6 py-5 transition hover:border-gold-500 hover:bg-sand"
+                >
+                  <Icon name="telegram" class="w-5 h-5 shrink-0 text-navy-900" />
+                  <span class="min-w-0">
+                    <span class="microlabel block text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                      {t('contact.telegram')}
+                    </span>
+                    <span class="block truncate font-semibold text-navy-900">{telegramLabel}</span>
+                  </span>
+                  <Icon
+                    name="arrow-right"
+                    class="w-4 h-4 ml-auto shrink-0 text-gold-600 transition-transform group-hover:translate-x-1"
+                  />
+                </a>
+              )
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

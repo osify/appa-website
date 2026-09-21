@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import LeadershipSection from '../../components/sections/LeadershipSection.astro';
+import PartnersSection from '../../components/sections/PartnersSection.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  route="/leadership"
+  title={t('meta.leadership.title')}
+  description={t('meta.leadership.description')}
+>
+  <PageHero
+    lang={lang}
+    eyebrow={t('leadership.eyebrow')}
+    title={t('leadership.titleHtml')}
+    titleHtml={t('leadership.titleHtml')}
+    lead={t('leadership.sub')}
+    crumbs={[{ label: t('nav.leadership') }]}
+  />
+
+  <LeadershipSection lang={lang} showHeading={false} detailed showCta={false} />
+  <PartnersSection lang={lang} />
+  <CtaBand lang={lang} />
+</BaseLayout>

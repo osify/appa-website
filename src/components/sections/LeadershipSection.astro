@@ -1,0 +1,94 @@
+---
+import Icon from '../Icon.astro';
+import LeaderCard from '../LeaderCard.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+import { getLeadership } from '../../lib/content';
+import { path, useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  showHeading?: boolean;
+  detailed?: boolean;
+  /** The gold "talk to a valuer" tile — only wanted on the homepage. */
+  showCta?: boolean;
+  homepageOnly?: boolean;
+}
+
+const {
+  lang,
+  showHeading = true,
+  detailed = false,
+  showCta = true,
+  homepageOnly = false,
+} = Astro.props;
+
+const t = useTranslations(lang);
+const people = await getLeadership({ homepageOnly });
+
+/**
+ * How many grid cells the people occupy — the featured card is two wide — so
+ * the gold CTA tile can fill whatever is left of the last row instead of
+ * sitting alone next to empty columns. With two people it stretches the full
+ * width; add a third and it shrinks back to a tile, with no edit here.
+ */
+const cells = people.reduce((total, person) => total + (person.data.featured ? 2 : 1), 0);
+const ctaSm = (2 - (cells % 2)) % 2 || 2;
+const ctaLg = (3 - (cells % 3)) % 3 || 3;
+const ctaWide = ctaLg > 1;
+---
+
+<section id="leadership" class="bg-white py-24 lg:py-36">
+  <div class="mx-auto max-w-content px-6 lg:px-10">
+    {
+      showHeading && (
+        <SectionHeading
+          class="mb-16 max-w-2xl"
+          eyebrow={t('leadership.eyebrow')}
+          titleHtml={t('leadership.titleHtml')}
+          sub={t('leadership.sub')}
+        />
+      )
+    }
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {people.map((person) => <LeaderCard lang={lang} person={person} detailed={detailed} />)}
+
+      {
+        showCta && (
+          <article
+            class:list={[
+              'reveal flex min-h-[280px] flex-col justify-between rounded-3xl bg-gold-500 p-8',
+              ctaSm === 2 && 'sm:col-span-2',
+              ctaLg === 2 && 'lg:col-span-2',
+              ctaLg === 3 && 'lg:col-span-3',
+              ctaWide && 'lg:min-h-0 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:p-10',
+            ]}
+          >
+            <div class="lg:max-w-2xl">
+              <h3 class="font-serif text-2xl font-semibold leading-snug text-navy-900">
+                {t('leadership.cta.title')}
+              </h3>
+              <p class="mt-4 text-sm leading-relaxed text-navy-900/70">
+                {t('leadership.cta.desc')}
+              </p>
+            </div>
+            <a
+              href={path(lang, '/contact')}
+              class:list={[
+                'group mt-8 inline-flex items-center gap-2 font-semibold text-navy-900',
+                ctaWide && 'lg:mt-0 lg:shrink-0',
+              ]}
+            >
+              {t('common.getInTouch')}
+              <Icon
+                name="arrow-right"
+                class="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1"
+              />
+            </a>
+          </article>
+        )
+      }
+    </div>
+  </div>
+</section>

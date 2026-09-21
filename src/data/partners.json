@@ -1,0 +1,59 @@
+[
+  {
+    "id": "milton-tan",
+    "order": 1,
+    "initials": "MT",
+    "name": {
+      "en": "Mr. Milton Tan",
+      "km": "លោក Milton Tan"
+    },
+    "position": {
+      "en": "Managing Director",
+      "km": "នាយកគ្រប់គ្រង"
+    },
+    "institution": {
+      "en": "Twin Pillars Holdings Pte Ltd",
+      "km": "Twin Pillars Holdings Pte Ltd"
+    },
+    "country": {
+      "en": "Singapore",
+      "km": "សិង្ហបុរី"
+    },
+    "expertise": [
+      { "en": "Plant and machinery valuation", "km": "ការវាយតម្លៃរោងចក្រ និងគ្រឿងចក្រ" }
+    ],
+    "website": "",
+    "linkedin": "",
+    "photo": ""
+  },
+  {
+    "id": "siong-yoong",
+    "order": 2,
+    "initials": "SY",
+    "name": {
+      "en": "Mr. Siong Yoong",
+      "km": "លោក Siong Yoong"
+    },
+    "position": {
+      "en": "Founder and CEO",
+      "km": "ស្ថាបនិក និងនាយកប្រតិបត្តិ"
+    },
+    "institution": {
+      "en": "VALLARIS",
+      "km": "VALLARIS"
+    },
+    "country": {
+      "en": "Singapore",
+      "km": "សិង្ហបុរី"
+    },
+    "expertise": [
+      { "en": "Mergers and acquisitions", "km": "ការរួមបញ្ចូល និងទិញយកអាជីវកម្ម" },
+      { "en": "Business valuation", "km": "ការវាយតម្លៃអាជីវកម្ម" },
+      { "en": "Financial due diligence", "km": "ការត្រួតពិនិត្យហិរញ្ញវត្ថុ" },
+      { "en": "Forensic accounting", "km": "គណនេយ្យស៊ើបអង្កេត" }
+    ],
+    "website": "https://thevallaris.com",
+    "linkedin": "https://www.linkedin.com/in/siongyoong",
+    "photo": ""
+  }
+]

@@ -1,0 +1,39 @@
+---
+/**
+ * ⚠ Gated behind site.json → features.network. When that switch is false this
+ * page is not generated at all, and every link to it disappears from the menus.
+ * See the warning in src/components/sections/NetworkSection.astro.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import NetworkSection from '../../components/sections/NetworkSection.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+import { isEnabled } from '../../lib/content';
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return isEnabled('network') ? localePaths() : [];
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  route="/network"
+  title={t('meta.network.title')}
+  description={t('meta.network.description')}
+>
+  <PageHero
+    lang={lang}
+    eyebrow={t('network.eyebrow')}
+    title={t('network.titleHtml')}
+    titleHtml={t('network.titleHtml')}
+    crumbs={[{ label: t('nav.network') }]}
+  />
+
+  <NetworkSection lang={lang} showHeading={false} />
+  <CtaBand lang={lang} />
+</BaseLayout>

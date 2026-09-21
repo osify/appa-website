@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import AboutSection from '../../components/sections/AboutSection.astro';
+import StandardsSection from '../../components/sections/StandardsSection.astro';
+import StatsBand from '../../components/sections/StatsBand.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+const route = '/about';
+---
+
+<BaseLayout
+  lang={lang}
+  route={route}
+  title={t('meta.about.title')}
+  description={t('meta.about.description')}
+>
+  <PageHero
+    lang={lang}
+    eyebrow={t('about.eyebrow')}
+    title={t('about.titleHtml')}
+    titleHtml={t('about.titleHtml')}
+    lead={t('about.lead')}
+    crumbs={[{ label: t('nav.about') }]}
+  />
+
+  <StatsBand lang={lang} />
+  <AboutSection lang={lang} compact />
+  <StandardsSection lang={lang} />
+  <CtaBand lang={lang} />
+</BaseLayout>

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "established",
+    "order": 1,
+    "published": true,
+    "value": 2021,
+    "prefix": "",
+    "suffix": "",
+    "animate": false,
+    "label": {
+      "en": "Established",
+      "km": "បង្កើតឡើង"
+    },
+    "evidence": "Stated on app-appraisal.com/about — verified."
+  },
+  {
+    "id": "years-experience",
+    "order": 2,
+    "published": true,
+    "value": 20,
+    "prefix": "",
+    "suffix": "+",
+    "animate": true,
+    "label": {
+      "en": "Years of leadership experience",
+      "km": "ឆ្នាំនៃបទពិសោធន៍ដឹកនាំ"
+    },
+    "evidence": "Leadership bios — Sorn Seap 20+ years (2026 profile, supplied by APP), Ngorn Sokun Rathna 15+ years. Verified."
+  },
+  {
+    "id": "disciplines",
+    "order": 3,
+    "published": true,
+    "value": 3,
+    "prefix": "",
+    "suffix": "",
+    "animate": true,
+    "label": {
+      "en": "Valuation disciplines",
+      "km": "ផ្នែកវាយតម្លៃ"
+    },
+    "evidence": "Real estate / plant & equipment / business. Verified."
+  },
+  {
+    "id": "markets",
+    "order": 4,
+    "published": true,
+    "feature": "network",
+    "value": 6,
+    "prefix": "",
+    "suffix": "",
+    "animate": true,
+    "label": {
+      "en": "Asian markets in our network",
+      "km": "ទីផ្សារអាស៊ីក្នុងបណ្តាញ"
+    },
+    "evidence": "⚠ Twin Pillars Team Asia page. Depends on confirming the relationship — Open Question #1. Hidden automatically if site.json → features.network is false."
+  },
+  {
+    "id": "valuations-completed",
+    "order": 5,
+    "published": false,
+    "value": 0,
+    "prefix": "",
+    "suffix": "+",
+    "animate": true,
+    "label": {
+      "en": "Valuations completed",
+      "km": "ការវាយតម្លៃដែលបានបញ្ចប់"
+    },
+    "evidence": "⚠ NEEDED — how many since 2021? Open Question #2. Set `value` and flip `published` to true. If the real figure is not impressive yet, leave it published:false rather than rounding up — the site sells numerical accuracy."
+  },
+  {
+    "id": "portfolio-value",
+    "order": 6,
+    "published": false,
+    "value": 0,
+    "prefix": "$",
+    "suffix": "M",
+    "animate": true,
+    "label": {
+      "en": "Portfolio value appraised",
+      "km": "តម្លៃផលប័ត្រដែលបានវាយតម្លៃ"
+    },
+    "evidence": "⚠ NEEDED — total USD value appraised. Open Question #2."
+  },
+  {
+    "id": "institutional-clients",
+    "order": 7,
+    "published": false,
+    "value": 0,
+    "prefix": "",
+    "suffix": "+",
+    "animate": true,
+    "label": {
+      "en": "Institutional clients",
+      "km": "អតិថិជនស្ថាប័ន"
+    },
+    "evidence": "⚠ NEEDED — how many banks / MFIs / corporates? Open Question #2."
+  }
+]

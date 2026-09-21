@@ -1,0 +1,91 @@
+---
+/**
+ * IVS · RICS · CVEA · AVA.
+ *
+ * ⚠ TODO (Open Question #8): the cards use text marks, not logos. RICS in
+ * particular restricts logo use to member firms in specific ways. Only drop a
+ * logo file into `logo` in src/data/standards.json once permission is confirmed
+ * in writing — a text mention is always safe, a logo may not be.
+ */
+import SectionHeading from '../SectionHeading.astro';
+import { getStandards } from '../../lib/content';
+import { pick, useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  /** Show the longer `detail` copy — used on the standalone /standards page. */
+  detailed?: boolean;
+  showHeading?: boolean;
+}
+
+const { lang, detailed = false, showHeading = true } = Astro.props;
+const t = useTranslations(lang);
+
+const standards = await getStandards();
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+---
+
+<section id="standards" class="relative overflow-hidden bg-navy-800 py-24 lg:py-36">
+  <div class="barcode barcode-soft-reverse pointer-events-none absolute left-0 top-0 h-full w-1/4 text-gold-500 opacity-[0.06]"></div>
+
+  <div class="relative mx-auto max-w-content px-6 lg:px-10">
+    {
+      showHeading && (
+        <SectionHeading
+          class="mb-16 max-w-3xl"
+          tone="dark"
+          eyebrow={t('standards.eyebrow')}
+          titleHtml={t('standards.titleHtml')}
+          sub={t('standards.sub')}
+        />
+      )
+    }
+
+    <ul class:list={['grid gap-5 sm:grid-cols-2', detailed ? 'lg:grid-cols-2' : 'lg:grid-cols-4']}>
+      {
+        standards.map((standard) => (
+          <li class="reveal group rounded-2xl bg-white p-7 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-navy-900/40">
+            <div class="mb-6 flex h-14 items-center">
+              {standard.data.logo ? (
+                <img
+                  src={`${base}${standard.data.logo}`}
+                  alt={pick(standard.data.name, lang)}
+                  class="max-h-14 w-auto"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <span class="font-serif text-3xl font-bold text-navy-700">{standard.data.abbr}</span>
+              )}
+            </div>
+
+            <h3 class="mb-3 font-serif text-lg font-semibold leading-snug text-navy-900">
+              {standard.data.url ? (
+                <a
+                  href={standard.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="transition-colors hover:text-gold-600"
+                >
+                  {pick(standard.data.name, lang)}
+                </a>
+              ) : (
+                pick(standard.data.name, lang)
+              )}
+            </h3>
+
+            <p class="text-sm leading-relaxed text-slate-500">
+              {pick(standard.data.summary, lang)}
+            </p>
+
+            {detailed && standard.data.detail && (
+              <p class="mt-4 border-t border-navy-900/[0.07] pt-4 text-sm leading-relaxed text-slate-500">
+                {pick(standard.data.detail, lang)}
+              </p>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

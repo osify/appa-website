@@ -1,0 +1,73 @@
+---
+/**
+ * The credibility numbers band.
+ *
+ * Only figures marked `published: true` in src/data/stats.json appear here, so
+ * the placeholder figures that have no evidence behind them stay off the site
+ * until someone supplies a real number. See the `evidence` field on each entry.
+ *
+ * The final value is rendered on the server, so the correct figure is in the
+ * HTML even if the counter island never loads.
+ */
+import StatCounter from '../vue/StatCounter.vue';
+import { getStats, site } from '../../lib/content';
+import { formatNumber, pick, toKhmerNumerals, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  class?: string;
+}
+
+const { lang, class: className = '' } = Astro.props;
+
+const stats = await getStats();
+const useKhmerNumerals = site.khmer.useKhmerNumerals;
+
+/** Digits 0–9 in the reader's numeral system, for the counter's frames. */
+const digits =
+  lang === 'km' && useKhmerNumerals
+    ? Array.from({ length: 10 }, (_, i) => toKhmerNumerals(i))
+    : [];
+
+/**
+ * Written out in full rather than interpolated: Tailwind scans the source for
+ * complete class names, so a constructed `lg:grid-cols-${n}` would never have
+ * its CSS generated.
+ */
+const COLUMN_CLASSES = ['lg:grid-cols-1', 'lg:grid-cols-2', 'lg:grid-cols-3', 'lg:grid-cols-4'];
+const columns = COLUMN_CLASSES[Math.min(Math.max(stats.length, 1), 4) - 1];
+---
+
+{
+  stats.length > 0 && (
+    <section id="stats" class:list={['border-y border-navy-900/[0.07] bg-sand', className]}>
+      <div class="mx-auto max-w-content px-6 py-16 lg:px-10 lg:py-20">
+        <dl class:list={['grid grid-cols-2 gap-x-8 gap-y-12', columns]}>
+          {stats.map((stat, index) => (
+            <div
+              class:list={[
+                'reveal text-center',
+                index < stats.length - 1 && 'lg:border-r lg:border-navy-900/10',
+              ]}
+            >
+              <dd class="font-serif text-5xl font-semibold text-navy-900 lg:text-6xl">
+                <StatCounter
+                  client:visible
+                  value={stat.data.value}
+                  prefix={stat.data.prefix}
+                  suffix={stat.data.suffix}
+                  animate={stat.data.animate}
+                  display={formatNumber(stat.data.value, lang, useKhmerNumerals)}
+                  digits={digits}
+                />
+              </dd>
+              <dt class="microlabel mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                {pick(stat.data.label, lang)}
+              </dt>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  )
+}

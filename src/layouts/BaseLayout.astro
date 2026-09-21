@@ -1,0 +1,197 @@
+---
+/**
+ * The document shell for every page: <head>, fonts, header, footer.
+ *
+ * Because English and Khmer are real pre-rendered pages, `lang` is written into
+ * the served HTML — Khmer never flashes in a Latin font, and no JavaScript is
+ * involved in choosing a language.
+ */
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../lib/content';
+import {
+  PUBLISHED_LOCALES,
+  isLocalePublished,
+  alternateUrls,
+  path,
+  useTranslations,
+  type Locale,
+} from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description: string;
+  /** The language-neutral route, e.g. "/about". Powers hreflang + the switch. */
+  route: string;
+  /** Optional per-page social share image (path inside public/). */
+  ogImage?: string;
+  /** Transparent header over a dark hero, vs solid header on a light page. */
+  transparentHeader?: boolean;
+  noindex?: boolean;
+  /**
+   * Emit hreflang alternates. Turn off for a page that does not exist in both
+   * languages — the 404, which GitHub Pages serves from the site root only.
+   */
+  hreflang?: boolean;
+  /** Where the language switch should send the reader, if not `route`. */
+  switchOverrides?: Partial<Record<Locale, string>>;
+}
+
+const {
+  lang,
+  title,
+  description,
+  route,
+  ogImage = site.seo.ogImage,
+  transparentHeader = false,
+  noindex = false,
+  hreflang = true,
+  switchOverrides,
+} = Astro.props;
+
+const t = useTranslations(lang);
+
+// Absolute URLs for canonical/OG tags. `Astro.site` comes from astro.config.mjs.
+const abs = (p: string) => new URL(p, Astro.site ?? 'https://app-appraisal.com').toString();
+
+const alternates = alternateUrls(route);
+const canonical = abs(alternates[lang]);
+// Omitted entirely when no share image has been supplied — an og:image
+// pointing at a missing file renders as a broken card in every chat app.
+const ogImageUrl = ogImage ? abs(`${import.meta.env.BASE_URL.replace(/\/+$/, '')}${ogImage}`) : '';
+
+const localeTags: Record<Locale, string> = { en: 'en', km: 'km-KH' };
+
+/**
+ * A language that is built but not yet published (Khmer, pre-launch) is kept
+ * out of the index: the pages stay reachable for review, but a search engine
+ * must not surface unreviewed copy. See `khmer.published` in site.json.
+ */
+const unpublishedLanguage = !isLocalePublished(lang);
+const robotsNoindex = noindex || unpublishedLanguage;
+---
+
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Tell search engines about every *published* language. While Khmer is
+        unpublished this collapses to nothing, rather than advertising pages
+        that are still under review. */}
+    {
+      hreflang && PUBLISHED_LOCALES.length > 1 && (
+        <>
+          {PUBLISHED_LOCALES.map((locale) => (
+            <link
+              rel="alternate"
+              hreflang={localeTags[locale]}
+              href={abs(switchOverrides?.[locale] ?? alternates[locale])}
+            />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={abs(alternates.en)} />
+        </>
+      )
+    }
+
+    {/* SVG only, deliberately: an apple-touch-icon.png link would 404 until a
+        raster icon is exported from the real logo artwork. Add the file to
+        public/ and a <link rel="apple-touch-icon"> here at the same time. */}
+    <link
+      rel="icon"
+      href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/favicon.svg`}
+      type="image/svg+xml"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta property="og:locale" content={lang === 'km' ? 'km_KH' : 'en_US'} />
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    {site.seo.twitterHandle && <meta name="twitter:site" content={site.seo.twitterHandle} />}
+
+    {/*
+      Marks that JavaScript is available, so the reveal animation is allowed to
+      hide content (see `.js .reveal` in global.css). This MUST run before first
+      paint and MUST stay inline — without it, a visitor with JS disabled would
+      be served a page whose content is permanently invisible.
+    */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <slot name="head" />
+  </head>
+
+  <body class="bg-white text-navy-900 antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-full focus:bg-gold-500 focus:px-5 focus:py-3 focus:font-semibold focus:text-navy-900"
+    >
+      {t('common.skipToContent')}
+    </a>
+
+    <Header lang={lang} route={route} transparent={transparentHeader} switchOverrides={switchOverrides} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+
+    <script>
+      /**
+       * Scroll reveal.
+       *
+       * Progressive enhancement only: the hidden state lives behind `.js` in
+       * global.css, so if this script never runs, every element is already
+       * visible. Reduced motion is honoured by the stylesheet.
+       */
+      const revealables = document.querySelectorAll<HTMLElement>('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (!entry.isIntersecting) return;
+              window.setTimeout(() => entry.target.classList.add('in'), index * 70);
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -60px 0px' },
+        );
+
+        revealables.forEach((el) => observer.observe(el));
+
+        /**
+         * A tab opened in the background never runs the observer and its CSS
+         * transitions are frozen, so nothing paints. Both resume when the tab is
+         * first viewed — settle whatever is on screen at that moment.
+         */
+        document.addEventListener('visibilitychange', function onFirstView() {
+          if (document.hidden) return;
+          document.removeEventListener('visibilitychange', onFirstView);
+          revealables.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) el.classList.add('in');
+          });
+        });
+      } else {
+        // No observer support: content visibility is not negotiable.
+        revealables.forEach((el) => el.classList.add('in'));
+      }
+    </script>
+  </body>
+</html>

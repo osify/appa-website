@@ -1,0 +1,86 @@
+---
+/**
+ * The gold rule + eyebrow + serif headline that opens every section.
+ *
+ * `titleHtml` is rendered with `set:html` so translations can carry the line
+ * breaks and highlight spans the design needs. That content comes from our own
+ * i18n and data files — never from user input.
+ */
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  titleHtml?: string;
+  sub?: string;
+  subHtml?: string;
+  /** `dark` = on a navy background, `light` = on white or sand. */
+  tone?: 'dark' | 'light';
+  align?: 'left' | 'center';
+  class?: string;
+  /** Renders as <h1> on a page where this is the main heading. */
+  as?: 'h1' | 'h2';
+  /** `compact` for narrow sidebar columns, where display sizes wrap badly. */
+  size?: 'display' | 'compact';
+}
+
+const {
+  eyebrow,
+  title,
+  titleHtml,
+  sub,
+  subHtml,
+  tone = 'light',
+  align = 'left',
+  class: className = '',
+  as: Tag = 'h2',
+  size = 'display',
+} = Astro.props;
+
+const eyebrowColour = tone === 'dark' ? 'text-gold-400' : 'text-gold-600';
+const titleColour = tone === 'dark' ? 'text-white' : 'text-navy-900';
+const subColour = tone === 'dark' ? 'text-white/60' : 'text-slate-500';
+const alignment = align === 'center' ? 'items-center text-center' : '';
+const titleSize =
+  size === 'compact'
+    ? 'text-3xl lg:text-[2.4rem] leading-[1.15]'
+    : 'text-4xl lg:text-[3.2rem] leading-[1.1]';
+---
+
+<div class:list={['flex flex-col', alignment, className]}>
+  {
+    eyebrow && (
+      <div class="reveal mb-6 flex items-center gap-3">
+        <span class="h-px w-10 shrink-0 bg-gold-500" />
+        <span
+          class:list={[
+            'eyebrow text-xs font-semibold tracking-[0.22em] uppercase',
+            eyebrowColour,
+          ]}
+        >
+          {eyebrow}
+        </span>
+      </div>
+    )
+  }
+
+  {
+    (title || titleHtml) && (
+      <Tag
+        class:list={[
+          'reveal font-serif font-semibold tracking-[-0.02em]',
+          titleSize,
+          titleColour,
+        ]}
+        set:html={titleHtml ?? title}
+      />
+    )
+  }
+
+  {
+    (sub || subHtml) && (
+      <p
+        class:list={['reveal mt-7 text-lg leading-relaxed', subColour]}
+        set:html={subHtml ?? sub}
+      />
+    )
+  }
+</div>

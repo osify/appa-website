@@ -1,0 +1,168 @@
+---
+/**
+ * Site footer.
+ *
+ * Also the no-JavaScript safety net: every page in the main navigation is
+ * linked from here in plain HTML, so the site is fully navigable even if the
+ * mobile drawer island never loads.
+ */
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import type { IconName } from './Icon.astro';
+
+import { getNavigation, site } from '../lib/content';
+import { path, pick, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+
+const t = useTranslations(lang);
+const nav = await getNavigation(lang, t);
+
+const socials = site.social.filter((s) => s.url);
+const year = new Date().getFullYear();
+const registration = Object.entries(site.registration).filter(([, value]) => value);
+---
+
+<footer class="bg-navy-900 border-t border-white/[0.08]">
+  <div class="mx-auto max-w-content px-6 lg:px-10 py-16">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5">
+        <a href={path(lang, '/')} class="inline-block text-white" aria-label={t('common.home')}>
+          <Logo class="items-start" />
+        </a>
+
+        <p class="mt-6 text-white/50 leading-relaxed max-w-sm">{t('footer.tagline')}</p>
+
+        {
+          socials.length > 0 && (
+            <div class="mt-7">
+              <h2 class="sr-only">{t('footer.followUs')}</h2>
+              <ul class="flex gap-3">
+                {socials.map((social) => (
+                  <li>
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                      class="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-white/60 transition hover:border-gold-500 hover:bg-gold-500 hover:text-navy-900"
+                    >
+                      <Icon name={social.icon as IconName} class="w-4 h-4" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+
+      <nav class="lg:col-span-2" aria-labelledby="footer-company">
+        <h2
+          id="footer-company"
+          class="microlabel text-[10px] font-bold tracking-[0.18em] uppercase text-gold-500 mb-5"
+        >
+          {t('footer.company')}
+        </h2>
+        <ul class="space-y-3 text-sm">
+          {
+            nav.footerCompany.map((item) => (
+              <li>
+                <a href={path(lang, item.href)} class="text-white/55 transition-colors hover:text-white">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav class="lg:col-span-2" aria-labelledby="footer-services">
+        <h2
+          id="footer-services"
+          class="microlabel text-[10px] font-bold tracking-[0.18em] uppercase text-gold-500 mb-5"
+        >
+          {t('footer.services')}
+        </h2>
+        <ul class="space-y-3 text-sm">
+          {
+            nav.footerServices.map((item) => (
+              <li>
+                <a href={path(lang, item.href)} class="text-white/55 transition-colors hover:text-white">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="lg:col-span-3">
+        <h2 class="microlabel text-[10px] font-bold tracking-[0.18em] uppercase text-gold-500 mb-5">
+          {t('footer.getInTouch')}
+        </h2>
+        <ul class="space-y-3 text-sm">
+          {
+            site.contact.phones.map((phone) => (
+              <li>
+                <a href={phone.href} class="text-white/55 transition-colors hover:text-white">
+                  {phone.display}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href={`mailto:${site.contact.email}`}
+              class="text-white/55 transition-colors hover:text-white"
+            >
+              {site.contact.email}
+            </a>
+          </li>
+          <li class="pt-1 leading-relaxed text-white/55">
+            {pick(site.contact.addressShort, lang)}
+          </li>
+          {
+            pick(site.contact.hours, lang) && (
+              <li class="leading-relaxed text-white/40">{pick(site.contact.hours, lang)}</li>
+            )
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-8 border-t border-white/[0.08] flex flex-col gap-4 sm:flex-row sm:justify-between">
+      <div class="space-y-1">
+        <p class="text-xs text-white/35">© {year} {t('footer.copyright')}</p>
+        {
+          registration.length > 0 && (
+            <p class="text-xs text-white/25">
+              {registration.map(([key, value]) => `${key}: ${value}`).join(' · ')}
+            </p>
+          )
+        }
+      </div>
+
+      <nav aria-label={t('footer.legal')}>
+        <ul class="flex gap-6">
+          {
+            nav.footerLegal.map((item) => (
+              <li>
+                <a
+                  href={path(lang, item.href)}
+                  class="text-xs text-white/35 transition-colors hover:text-white/70"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

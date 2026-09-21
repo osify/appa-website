@@ -1,0 +1,39 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import ServiceCard from '../ServiceCard.astro';
+import { getServices } from '../../lib/content';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  showHeading?: boolean;
+  class?: string;
+}
+
+const { lang, showHeading = true, class: className = '' } = Astro.props;
+const t = useTranslations(lang);
+const services = await getServices();
+---
+
+<section id="services" class:list={['bg-white py-24 lg:py-36', className]}>
+  <div class="mx-auto max-w-content px-6 lg:px-10">
+    {
+      showHeading && (
+        <div class="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading
+            class="max-w-2xl"
+            eyebrow={t('services.eyebrow')}
+            titleHtml={t('services.titleHtml')}
+          />
+          <p class="reveal leading-relaxed text-slate-500 lg:max-w-sm lg:text-right">
+            {t('services.note')}
+          </p>
+        </div>
+      )
+    }
+
+    <div class="grid gap-6 lg:grid-cols-3">
+      {services.map((service, index) => <ServiceCard lang={lang} service={service} index={index} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*.astro", "**/*.ts", "**/*.vue", "src/**/*.d.ts"],
+  "exclude": ["dist", "node_modules"],
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "verbatimModuleSyntax": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

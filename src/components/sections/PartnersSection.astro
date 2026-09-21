@@ -1,0 +1,133 @@
+---
+/**
+ * "Our Partners" — the specialists APP works with outside Cambodia.
+ *
+ * Deliberately styled apart from the leadership cards: partners are named
+ * individuals at other firms, not APP staff, so each card leads with the
+ * institution and country rather than an APP job title. Content lives in
+ * src/data/partners.json; the whole section disappears when
+ * site.json → features.partners is false, or when the file is empty.
+ */
+import Icon from '../Icon.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+import { getPartners } from '../../lib/content';
+import { pick, pickList, useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  showHeading?: boolean;
+}
+
+const { lang, showHeading = true } = Astro.props;
+const t = useTranslations(lang);
+
+const partners = await getPartners();
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+---
+
+{
+  partners.length > 0 && (
+    <section id="partners" class="bg-sand py-24 lg:py-32">
+      <div class="mx-auto max-w-content px-6 lg:px-10">
+        {showHeading && (
+          <SectionHeading
+            class="mb-16 max-w-2xl"
+            eyebrow={t('partners.eyebrow')}
+            titleHtml={t('partners.titleHtml')}
+            sub={t('partners.sub')}
+          />
+        )}
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          {partners.map((partner) => {
+            const name = pick(partner.data.name, lang);
+            const expertise = pickList(partner.data.expertise, lang);
+            const { website, linkedin, photo, initials } = partner.data;
+
+            return (
+              <article class="reveal flex flex-col rounded-3xl border border-navy-900/[0.07] bg-white p-8 transition-all hover:-translate-y-1 hover:shadow-xl">
+                <div class="flex items-start gap-5">
+                  {photo ? (
+                    <img
+                      src={`${base}${photo}`}
+                      alt={name}
+                      class="h-16 w-16 shrink-0 rounded-2xl object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-navy-900">
+                      <span aria-hidden="true" class="font-serif text-lg font-semibold text-gold-500">
+                        {initials}
+                      </span>
+                    </div>
+                  )}
+
+                  <div>
+                    <h3 class="font-serif text-xl font-semibold">{name}</h3>
+                    <p class="mt-1 text-sm text-slate-500">{pick(partner.data.position, lang)}</p>
+                    <p class="mt-2 text-sm font-semibold text-navy-900">
+                      {pick(partner.data.institution, lang)}
+                    </p>
+                    <p class="microlabel mt-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                      <Icon name="map-pin" class="w-3 h-3 shrink-0" />
+                      {pick(partner.data.country, lang)}
+                    </p>
+                  </div>
+                </div>
+
+                {expertise.length > 0 && (
+                  <div class="mt-6 border-t border-navy-900/[0.07] pt-5">
+                    <h4 class="microlabel mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                      {t('partners.expertise')}
+                    </h4>
+                    <ul class="flex flex-wrap gap-2">
+                      {expertise.map((item) => (
+                        <li class="rounded-full border border-gold-500/30 px-3 py-1 text-[11px] font-medium text-gold-600">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {(website || linkedin) && (
+                  <div class="mt-auto flex flex-wrap items-center gap-5 pt-6">
+                    {website && (
+                      <a
+                        href={website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group inline-flex items-center gap-1.5 text-sm font-semibold text-navy-900"
+                      >
+                        {t('partners.website')}
+                        <Icon
+                          name="external"
+                          class="w-3.5 h-3.5 shrink-0 transition-transform group-hover:-translate-y-0.5"
+                        />
+                        <span class="sr-only">— {name}</span>
+                      </a>
+                    )}
+                    {linkedin && (
+                      <a
+                        href={linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-navy-900"
+                      >
+                        <Icon name="linkedin" class="w-4 h-4 shrink-0" />
+                        LinkedIn
+                        <span class="sr-only">— {name}</span>
+                      </a>
+                    )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}

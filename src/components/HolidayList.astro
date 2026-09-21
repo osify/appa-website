@@ -1,0 +1,92 @@
+---
+/**
+ * Office closures / Cambodian public holidays.
+ *
+ * Rendered on the server, so the list is plain HTML and needs no JavaScript —
+ * unlike the prototype, where it was built in the browser.
+ *
+ * ⚠ TWO THINGS STILL NEED THE CLIENT (see src/data/holidays.json):
+ *   1. HOLIDAY NAMES. Only the King's Birthday was supplied. Entries with an
+ *      empty name render a visible "to be confirmed" marker — names are never
+ *      invented here.
+ *   2. LIST COMPLETENESS. This is the client's supplied set, not a verified
+ *      copy of the official public-holiday sub-decree. Confirm before launch.
+ */
+import Icon from './Icon.astro';
+import { getHolidays, site } from '../lib/content';
+import { formatDate, formatFullKhmerHoliday } from '../lib/dates';
+import { pick, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  tone?: 'dark' | 'light';
+  limit?: number;
+}
+
+const { lang, tone = 'dark', limit } = Astro.props;
+const t = useTranslations(lang);
+
+const holidays = await getHolidays({ upcomingOnly: true, limit });
+const useKhmerNumerals = site.khmer.useKhmerNumerals;
+
+const headingColour = tone === 'dark' ? 'text-gold-400' : 'text-gold-600';
+const noteColour = tone === 'dark' ? 'text-white/50' : 'text-slate-500';
+const dateColour = tone === 'dark' ? 'text-white/85' : 'text-navy-900';
+const nameColour = tone === 'dark' ? 'text-gold-300' : 'text-gold-600';
+const tbcColour = tone === 'dark' ? 'text-white/35' : 'text-slate-400';
+const lunarColour = tone === 'dark' ? 'text-white/35' : 'text-slate-400';
+const dotMuted = tone === 'dark' ? 'bg-white/25' : 'bg-navy-900/20';
+---
+
+{
+  holidays.length > 0 && (
+    <div>
+      <div class="mb-2 flex items-start gap-3">
+        <Icon name="calendar" class="w-5 h-5 shrink-0 mt-0.5 text-gold-500" />
+        <div>
+          <h3 class:list={['microlabel text-[10px] font-bold uppercase tracking-[0.18em]', headingColour]}>
+            {t('contact.holidays')}
+          </h3>
+          <p class:list={['mt-1 text-sm', noteColour]}>{t('contact.holidaysNote')}</p>
+        </div>
+      </div>
+
+      <ul class="mt-5 space-y-3.5">
+        {holidays.map((holiday) => {
+          const name = pick(holiday.data.name, lang);
+          return (
+            <li class="flex gap-3">
+              <span
+                class:list={[
+                  'mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full',
+                  name ? 'bg-gold-500' : dotMuted,
+                ]}
+              />
+              <div>
+                <p class:list={['text-sm font-medium', dateColour]}>
+                  <time datetime={holiday.data.date}>
+                    {formatDate(holiday.data.date, lang, {
+                      weekday: true,
+                      khmerNumerals: useKhmerNumerals,
+                    })}
+                  </time>
+                </p>
+
+                <p class:list={['mt-0.5 text-sm', name ? nameColour : `${tbcColour} italic`]}>
+                  {name || t('contact.holidaysTbc')}
+                </p>
+
+                {/* The formal lunar line is meaningful to a Khmer reader only. */}
+                {lang === 'km' && holiday.data.khmerLunar && (
+                  <p class:list={['mt-1 text-xs leading-relaxed', lunarColour]}>
+                    {formatFullKhmerHoliday(holiday.data.khmerLunar, holiday.data.date, useKhmerNumerals)}
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  )
+}

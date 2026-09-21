@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactSection from '../../components/sections/ContactSection.astro';
+
+import { site } from '../../lib/content';
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  route="/contact"
+  title={t('meta.contact.title')}
+  description={t('meta.contact.description')}
+>
+  <PageHero
+    lang={lang}
+    eyebrow={t('contact.eyebrow')}
+    title={t('contact.titleHtml')}
+    titleHtml={t('contact.titleHtml')}
+    lead={t('contact.sub')}
+    crumbs={[{ label: t('nav.contact') }]}
+  />
+
+  <ContactSection lang={lang} showHeading={false} />
+
+  {
+    site.contact.mapEmbedUrl && (
+      <section class="bg-sand pb-20 lg:pb-24">
+        <div class="mx-auto max-w-content px-6 lg:px-10">
+          <h2 class="reveal mb-6 font-serif text-2xl font-semibold">{t('contact.map')}</h2>
+          <div class="reveal overflow-hidden rounded-3xl border border-navy-900/[0.07]">
+            <iframe
+              src={site.contact.mapEmbedUrl}
+              title={t('contact.map')}
+              class="h-[420px] w-full"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

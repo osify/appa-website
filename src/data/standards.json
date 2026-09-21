@@ -1,0 +1,78 @@
+[
+  {
+    "id": "ivs",
+    "order": 1,
+    "abbr": "IVSC",
+    "name": {
+      "en": "International Valuation Standards",
+      "km": "ស្តង់ដារវាយតម្លៃអន្តរជាតិ"
+    },
+    "summary": {
+      "en": "IVS covers the valuation of a full range of assets — financial instruments, fixed assets, intangible assets and business interests.",
+      "km": "IVS គ្របដណ្តប់លើការវាយតម្លៃទ្រព្យសកម្មគ្រប់ប្រភេទ — ឧបករណ៍ហិរញ្ញវត្ថុ ទ្រព្យសកម្មថេរ ទ្រព្យសកម្មអរូបី និងផលប្រយោជន៍អាជីវកម្ម។"
+    },
+    "detail": {
+      "en": "Published by the International Valuation Standards Council, IVS is the common language of valuation worldwide. Reporting against it means an APP valuation can be read, compared and relied upon by an institution anywhere — not just in Cambodia.",
+      "km": "បោះពុម្ពផ្សាយដោយក្រុមប្រឹក្សាស្តង់ដារវាយតម្លៃអន្តរជាតិ IVS គឺជាភាសារួមនៃការវាយតម្លៃទូទាំងពិភពលោក។ ការរាយការណ៍តាមស្តង់ដារនេះមានន័យថាការវាយតម្លៃរបស់ APP អាចត្រូវបានអាន ប្រៀបធៀប និងទុកចិត្តដោយស្ថាប័នណាមួយគ្រប់ទីកន្លែង។"
+    },
+    "logo": "",
+    "url": "https://www.ivsc.org/"
+  },
+  {
+    "id": "rics",
+    "order": 2,
+    "abbr": "RICS",
+    "name": {
+      "en": "Royal Institution of Chartered Surveyors",
+      "km": "Royal Institution of Chartered Surveyors"
+    },
+    "summary": {
+      "en": "RICS sets valuation standards, protects consumers through strict codes of practice, and provides expertise across land and real property.",
+      "km": "RICS កំណត់ស្តង់ដារវាយតម្លៃ ការពារអតិថិជនតាមរយៈក្រមប្រតិបត្តិដ៏តឹងរឹង និងផ្តល់ជំនាញលើដីធ្លី និងអចលនទ្រព្យ។"
+    },
+    "detail": {
+      "en": "The RICS Red Book sets out how a valuation must be scoped, evidenced, reviewed and reported. It is the benchmark lenders and auditors look for, and it is the discipline behind every engagement we accept.",
+      "km": "សៀវភៅក្រហម RICS កំណត់អំពីរបៀបដែលការវាយតម្លៃត្រូវកំណត់វិសាលភាព ផ្ទៀងផ្ទាត់ ត្រួតពិនិត្យ និងរាយការណ៍។ វាជាស្តង់ដារដែលអ្នកផ្តល់ឥណទាន និងសវនករស្វែងរក។"
+    },
+    "logo": "",
+    "url": "https://www.rics.org/"
+  },
+  {
+    "id": "cvea",
+    "order": 3,
+    "abbr": "CVEA",
+    "name": {
+      "en": "Cambodian Valuers & Estate Agents Association",
+      "km": "សមាគមអ្នកវាយតម្លៃ និងភ្នាក់ងារអចលនទ្រព្យកម្ពុជា"
+    },
+    "summary": {
+      "en": "The Kingdom's professional body for valuers and agents. Our Chairman serves as its President.",
+      "km": "ស្ថាប័នវិជ្ជាជីវៈសម្រាប់អ្នកវាយតម្លៃ និងភ្នាក់ងារនៅក្នុងព្រះរាជាណាចក្រ។ ប្រធានរបស់យើងកំពុងបម្រើការជាប្រធានសមាគមនេះ។"
+    },
+    "detail": {
+      "en": "CVEA licenses and represents the valuation profession in Cambodia, and works with the Ministry of Economy and Finance on how the profession is regulated. APP's Chairman, Mr. Sorn Seap, serves as its President.",
+      "km": "CVEA ផ្តល់អាជ្ញាបណ្ណ និងតំណាងឱ្យវិជ្ជាជីវៈវាយតម្លៃនៅកម្ពុជា ហើយធ្វើការជាមួយក្រសួងសេដ្ឋកិច្ច និងហិរញ្ញវត្ថុ។ ប្រធានរបស់ APP លោក សន សៀប បម្រើការជាប្រធានសមាគមនេះ។"
+    },
+    "logo": "",
+    "url": ""
+  },
+  {
+    "id": "ava",
+    "order": 4,
+    "abbr": "AVA",
+    "name": {
+      "en": "ASEAN Valuers Association",
+      "km": "សមាគមអ្នកវាយតម្លៃអាស៊ាន"
+    },
+    "summary": {
+      "en": "The regional body harmonising valuation practice across South-East Asia. Our leadership participates in AVA congresses.",
+      "km": "ស្ថាប័នក្នុងតំបន់ដែលធ្វើសុខដុមនីយកម្មការអនុវត្តវាយតម្លៃនៅអាស៊ីអាគ្នេយ៍។ ថ្នាក់ដឹកនាំរបស់យើងចូលរួមក្នុងសន្និបាត AVA។"
+    },
+    "detail": {
+      "en": "AVA brings the national valuation bodies of South-East Asia together so that a valuation prepared in one member state is understood in the others. Our Deputy General Manager attended the 23rd AVA Congress.",
+      "km": "AVA ប្រមូលផ្តុំស្ថាប័នវាយតម្លៃជាតិនៃអាស៊ីអាគ្នេយ៍ ដើម្បីឱ្យការវាយតម្លៃដែលរៀបចំនៅរដ្ឋសមាជិកមួយ ត្រូវបានយល់នៅរដ្ឋដទៃទៀត។ អគ្គនាយករងរបស់យើងបានចូលរួមសន្និបាត AVA លើកទី ២៣។"
+    },
+    "logo": "",
+    "url": ""
+  }
+]

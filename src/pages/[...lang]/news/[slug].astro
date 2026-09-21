@@ -1,0 +1,211 @@
+---
+/**
+ * A single article.
+ *
+ * Only generates the routes that actually have a Markdown file, so an article
+ * written in Khmer only produces `/km/news/<slug>` and nothing at `/news/<slug>`.
+ * The language switch is redirected accordingly: it points at the translation
+ * when `translationKey` matches one, and at the news index otherwise — never at
+ * a page that does not exist.
+ */
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import Icon from '../../../components/Icon.astro';
+import PostCard from '../../../components/PostCard.astro';
+
+import {
+  getPostTranslation,
+  getPosts,
+  isEnabled,
+  postSlug,
+  site,
+} from '../../../lib/content';
+import { formatDate, readingTime } from '../../../lib/dates';
+import {
+  DEFAULT_LOCALE,
+  LOCALES,
+  formatNumber,
+  path,
+  resolveLocale,
+  useTranslations,
+  type Locale,
+} from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  if (!isEnabled('news')) return [];
+
+  const entries = [];
+
+  for (const locale of LOCALES) {
+    const posts = await getPosts(locale);
+
+    for (const post of posts) {
+      const translation = await getPostTranslation(post, locale === 'en' ? 'km' : 'en');
+
+      entries.push({
+        params: {
+          lang: locale === DEFAULT_LOCALE ? undefined : locale,
+          slug: postSlug(post),
+        },
+        props: { post, translationSlug: translation ? postSlug(translation) : null },
+      });
+    }
+  }
+
+  return entries;
+}
+
+const { post, translationSlug } = Astro.props;
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+
+const { Content } = await render(post);
+
+const route = `/news/${postSlug(post)}`;
+const minutes = readingTime(post.body ?? '', lang);
+const published = formatDate(post.data.pubDate, lang, {
+  khmerNumerals: site.khmer.useKhmerNumerals,
+});
+const updated = post.data.updatedDate
+  ? formatDate(post.data.updatedDate, lang, { khmerNumerals: site.khmer.useKhmerNumerals })
+  : null;
+
+/**
+ * Where the language switch sends the reader. If this article has no
+ * translation, send them to the news index in that language rather than to a
+ * URL that would 404.
+ */
+const switchOverrides: Partial<Record<Locale, string>> = {};
+for (const locale of LOCALES) {
+  if (locale === lang) {
+    switchOverrides[locale] = path(locale, route);
+  } else {
+    switchOverrides[locale] = translationSlug
+      ? path(locale, `/news/${translationSlug}`)
+      : path(locale, '/news');
+  }
+}
+
+const related = (await getPosts(lang)).filter((p) => p.id !== post.id).slice(0, 3);
+---
+
+<BaseLayout
+  lang={lang}
+  route={route}
+  title={`${post.data.title} | ${site.name}`}
+  description={post.data.description}
+  switchOverrides={switchOverrides}
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={post.data.pubDate.toISOString()} />
+    {
+      post.data.updatedDate && (
+        <meta property="article:modified_time" content={post.data.updatedDate.toISOString()} />
+      )
+    }
+  </Fragment>
+
+  <article>
+    <header class="relative overflow-hidden bg-navy-900 pb-16 pt-32 lg:pb-20 lg:pt-44">
+      <div class="barcode barcode-soft pointer-events-none absolute right-0 top-0 h-full w-1/3 text-gold-500 opacity-[0.06]"></div>
+
+      <div class="relative mx-auto max-w-3xl px-6 lg:px-10">
+        <a
+          href={path(lang, '/news')}
+          class="mb-8 inline-flex items-center gap-2 text-xs text-white/40 transition-colors hover:text-gold-400"
+        >
+          <Icon name="arrow-left" class="w-3.5 h-3.5" />
+          {t('news.backToNews')}
+        </a>
+
+        <h1
+          class="font-serif text-3xl font-semibold leading-[1.15] tracking-[-0.02em] text-white lg:text-[3rem]"
+        >
+          {post.data.title}
+        </h1>
+
+        <p class="mt-6 text-lg leading-relaxed text-white/60">{post.data.description}</p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/40">
+          <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{published}</time>
+          <span aria-hidden="true">·</span>
+          <span>{formatNumber(minutes, lang, site.khmer.useKhmerNumerals)} {t('news.readingTime')}</span>
+          {
+            post.data.author && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{t('news.byline')} {post.data.author}</span>
+              </>
+            )
+          }
+        </div>
+      </div>
+    </header>
+
+    {
+      post.data.cover && (
+        <div class="mx-auto -mt-8 max-w-4xl px-6 lg:px-10">
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt ?? ''}
+            widths={[600, 1000, 1600]}
+            sizes="(min-width: 1024px) 900px, 100vw"
+            class="w-full rounded-3xl object-cover shadow-2xl shadow-navy-900/20"
+            loading="eager"
+          />
+        </div>
+      )
+    }
+
+    <div class="bg-white py-16 lg:py-20">
+      <div class="mx-auto max-w-3xl px-6 lg:px-10">
+        <div class="prose-app">
+          <Content />
+        </div>
+
+        {
+          updated && (
+            <p class="mt-12 border-t border-navy-900/[0.08] pt-6 text-sm text-slate-400">
+              {t('news.updated')}: <time datetime={post.data.updatedDate?.toISOString().slice(0, 10)}>{updated}</time>
+            </p>
+          )
+        }
+
+        {
+          post.data.tags.length > 0 && (
+            <div class="mt-8">
+              <h2 class="sr-only">{t('news.tags')}</h2>
+              <ul class="flex flex-wrap gap-2">
+                {post.data.tags.map((tag) => (
+                  <li class="rounded-full bg-sand px-3 py-1.5 text-xs font-medium text-slate-500">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="border-t border-navy-900/[0.06] bg-sand py-16 lg:py-20">
+          <div class="mx-auto max-w-content px-6 lg:px-10">
+            <h2 class="reveal mb-8 font-serif text-2xl font-semibold">{t('news.more')}</h2>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((item) => (
+                <PostCard lang={lang} post={item} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  <CtaBand lang={lang} />
+</BaseLayout>

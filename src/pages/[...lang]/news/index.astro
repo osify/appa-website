@@ -1,0 +1,65 @@
+---
+/**
+ * News index.
+ *
+ * Articles are per-language, not translations of each other by default: the
+ * current APP site publishes in Khmer only, and this respects that. If a
+ * language has no articles yet, the page still exists and says so plainly
+ * rather than 404ing on a link that appears in the menu of every page.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import PostCard from '../../../components/PostCard.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+
+import { getPosts, isEnabled } from '../../../lib/content';
+import { localePaths, resolveLocale, useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return isEnabled('news') ? localePaths() : [];
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+
+const posts = await getPosts(lang);
+const [first, ...rest] = posts;
+---
+
+<BaseLayout
+  lang={lang}
+  route="/news"
+  title={t('meta.news.title')}
+  description={t('meta.news.description')}
+>
+  <PageHero
+    lang={lang}
+    eyebrow={t('news.eyebrow')}
+    title={t('news.titleHtml')}
+    titleHtml={t('news.titleHtml')}
+    lead={t('news.sub')}
+    crumbs={[{ label: t('nav.news') }]}
+  />
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-content px-6 lg:px-10">
+      {
+        posts.length === 0 ? (
+          <div class="reveal rounded-3xl border border-dashed border-navy-900/15 bg-sand p-12 text-center">
+            <p class="font-serif text-xl text-navy-900">{t('news.emptyLocale')}</p>
+            <p class="mt-3 text-slate-500">{t('news.empty')}</p>
+          </div>
+        ) : (
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <PostCard lang={lang} post={first} featured />
+            {rest.map((post) => (
+              <PostCard lang={lang} post={post} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</BaseLayout>

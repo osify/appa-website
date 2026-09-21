@@ -1,0 +1,45 @@
+---
+/**
+ * Homepage — generated twice: `/` (English) and `/km/` (Khmer).
+ *
+ * The `[...lang]` rest parameter is what produces both. `lang: undefined` is
+ * the unprefixed English route; see `localePaths()` in src/i18n/utils.ts.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+import Hero from '../../components/sections/Hero.astro';
+import StatsBand from '../../components/sections/StatsBand.astro';
+import AboutSection from '../../components/sections/AboutSection.astro';
+import StandardsSection from '../../components/sections/StandardsSection.astro';
+import ServicesSection from '../../components/sections/ServicesSection.astro';
+import NetworkSection from '../../components/sections/NetworkSection.astro';
+import LeadershipSection from '../../components/sections/LeadershipSection.astro';
+import ContactSection from '../../components/sections/ContactSection.astro';
+
+import { isEnabled } from '../../lib/content';
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  route="/"
+  title={t('meta.home.title')}
+  description={t('meta.home.description')}
+  transparentHeader
+>
+  <Hero lang={lang} />
+  <StatsBand lang={lang} />
+  <AboutSection lang={lang} />
+  <StandardsSection lang={lang} />
+  <ServicesSection lang={lang} />
+  {isEnabled('network') && <NetworkSection lang={lang} />}
+  {isEnabled('leadershipPage') && <LeadershipSection lang={lang} homepageOnly />}
+  <ContactSection lang={lang} />
+</BaseLayout>

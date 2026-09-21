@@ -1,0 +1,199 @@
+---
+/**
+ * Fixed site header.
+ *
+ * The desktop navigation is entirely static HTML — no JavaScript, fully
+ * crawlable. Only two behaviours are enhanced:
+ *   • the scroll state (transparent over a dark hero → solid once scrolled),
+ *     handled by the small inline script at the bottom of this file;
+ *   • the mobile drawer, which is a Vue island.
+ */
+import Icon from './Icon.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import Logo from './Logo.astro';
+import MobileMenu from './vue/MobileMenu.vue';
+
+import { getNavigation } from '../lib/content';
+import {
+  PUBLISHED_LOCALES,
+  LOCALE_NAMES,
+  alternateUrls,
+  path,
+  useTranslations,
+  type Locale,
+} from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  route: string;
+  /** True on pages that open with a dark hero the header can sit over. */
+  transparent?: boolean;
+  switchOverrides?: Partial<Record<Locale, string>>;
+}
+
+const { lang, route, transparent = false, switchOverrides } = Astro.props;
+
+const t = useTranslations(lang);
+const nav = await getNavigation(lang, t);
+
+/** Localise a nav href and mark the entry the reader is currently on. */
+const localise = (item: { label: string; href: string; children?: { label: string; href: string }[] }) => ({
+  label: item.label,
+  href: path(lang, item.href),
+  children: item.children?.map((child) => ({ label: child.label, href: path(lang, child.href) })),
+});
+
+const mainNav = nav.main.map(localise);
+const currentPath = path(lang, route);
+const contactHref = path(lang, '/contact');
+
+const isCurrent = (href: string) => currentPath === href || currentPath.startsWith(`${href}/`);
+
+/** Starting colours. The scroll script swaps these once the hero is passed. */
+const navTone = transparent ? 'text-white' : 'text-navy-900';
+const switchTone = transparent ? 'border-white/25' : 'border-navy-900/15';
+
+const alternates = alternateUrls(route);
+// Empty-but-for-one while Khmer is unpublished; the drawer hides the row.
+const languages = PUBLISHED_LOCALES.map((locale) => ({
+  code: locale,
+  label: LOCALE_NAMES[locale],
+  href: switchOverrides?.[locale] ?? alternates[locale],
+  current: locale === lang,
+}));
+---
+
+<header
+  id="site-header"
+  data-transparent={transparent ? 'true' : 'false'}
+  class:list={[
+    'fixed top-0 inset-x-0 z-50 transition-all duration-500',
+    !transparent && 'bg-white/95 backdrop-blur-md shadow-lg shadow-navy-900/5',
+  ]}
+>
+  <div class="mx-auto max-w-content px-6 lg:px-10">
+    <div
+      id="header-inner"
+      class:list={[
+        'flex items-center justify-between transition-all duration-500',
+        transparent ? 'h-20 lg:h-24' : 'h-16 lg:h-20',
+      ]}
+    >
+      <a
+        href={path(lang, '/')}
+        class:list={['nav-link shrink-0 transition-colors duration-500', navTone]}
+        aria-label={t('common.home')}
+      >
+        <Logo />
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8" aria-label={t('common.menu')}>
+        {
+          mainNav.map((item) =>
+            item.children?.length ? (
+              /* Services: hover/focus dropdown. The parent is a real link, so
+                 the section is reachable without opening the dropdown at all. */
+              <div class="relative group">
+                <a
+                  href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  class={`nav-link inline-flex items-center gap-1 text-sm font-medium tracking-wide link-underline ${navTone}`}
+                >
+                  {item.label}
+                  <Icon name="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
+                </a>
+                <div class="invisible absolute left-1/2 top-full z-10 w-72 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  <ul class="rounded-2xl border border-navy-900/[0.07] bg-white p-2 shadow-xl shadow-navy-900/10">
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          aria-current={isCurrent(child.href) ? 'page' : undefined}
+                          class="block rounded-xl px-4 py-3 text-sm text-slate-500 transition-colors hover:bg-sand hover:text-navy-900 aria-[current]:bg-sand aria-[current]:font-semibold aria-[current]:text-navy-900"
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                class={`nav-link text-sm font-medium tracking-wide link-underline ${navTone}`}
+              >
+                {item.label}
+              </a>
+            ),
+          )
+        }
+
+        <LanguageSwitch lang={lang} route={route} switchOverrides={switchOverrides} class={switchTone} />
+
+        <a
+          href={contactHref}
+          class="inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-navy-900 transition hover:bg-gold-400 hover:shadow-lg hover:shadow-gold-500/25"
+        >
+          {t('nav.cta')}
+        </a>
+      </nav>
+
+      <MobileMenu
+        client:idle
+        class={navTone}
+        items={mainNav}
+        languages={languages}
+        languageLabel={t('common.language')}
+        ctaLabel={t('nav.cta')}
+        ctaHref={contactHref}
+        openLabel={t('common.openMenu')}
+        closeLabel={t('common.closeMenu')}
+        menuLabel={t('common.menu')}
+        currentPath={currentPath}
+      />
+    </div>
+  </div>
+</header>
+
+<script>
+  /**
+   * Header scroll state.
+   *
+   * Only runs on pages that open with a dark hero (`data-transparent="true"`);
+   * every other page ships a solid header in the HTML and needs nothing here.
+   * If this script never runs, the header stays transparent over the hero —
+   * legible, because the hero behind it is dark.
+   */
+  const header = document.getElementById('site-header');
+  const inner = document.getElementById('header-inner');
+
+  if (header?.dataset.transparent === 'true' && inner) {
+    const solidClasses = ['bg-white/95', 'backdrop-blur-md', 'shadow-lg', 'shadow-navy-900/5'];
+    // Includes the logo anchor, so the wordmark, its barcode and its caption
+    // all recolour together — they inherit currentColor from it.
+    const navLinks = header.querySelectorAll<HTMLElement>('.nav-link');
+    const langSwitch = header.querySelector<HTMLElement>('.lang-switch');
+
+    const apply = () => {
+      const solid = window.scrollY > 40;
+
+      solidClasses.forEach((cls) => header.classList.toggle(cls, solid));
+      inner.classList.toggle('h-20', !solid);
+      inner.classList.toggle('lg:h-24', !solid);
+      inner.classList.toggle('h-16', solid);
+      inner.classList.toggle('lg:h-20', solid);
+
+      navLinks.forEach((link) => {
+        link.classList.toggle('text-navy-900', solid);
+        link.classList.toggle('text-white', !solid);
+      });
+      langSwitch?.classList.toggle('border-navy-900/15', solid);
+      langSwitch?.classList.toggle('border-white/25', !solid);
+    };
+
+    apply();
+    window.addEventListener('scroll', apply, { passive: true });
+  }
+</script>

@@ -1,0 +1,61 @@
+---
+/**
+ * EN / ខ្មែរ switch.
+ *
+ * Deliberately two ordinary links, not a JavaScript toggle: each language is a
+ * real static page, so switching works with JavaScript disabled, the URL is
+ * shareable, and search engines can crawl both versions. `aria-current` marks
+ * the page you are already on.
+ *
+ * Renders nothing at all while only one language is published (see
+ * `khmer.published` in site.json) — a switch with a single option is noise.
+ */
+import { PUBLISHED_LOCALES, LOCALE_LABELS, LOCALE_NAMES, alternateUrls, type Locale } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  /** Language-neutral route, e.g. "/about". */
+  route: string;
+  /** Per-language destination override — used by article pages, where the
+      translation may live at a different slug (or not exist at all). */
+  switchOverrides?: Partial<Record<Locale, string>>;
+  variant?: 'header' | 'mobile';
+  class?: string;
+}
+
+const { lang, route, switchOverrides, variant = 'header', class: className = '' } = Astro.props;
+
+const t = useTranslations(lang);
+const urls = alternateUrls(route);
+
+const base =
+  variant === 'header'
+    ? 'lang-btn rounded-full px-3 py-1 text-xs font-semibold'
+    : 'lang-btn flex-1 rounded-full border border-white/20 px-4 py-2.5 text-sm font-semibold text-white text-center';
+---
+
+{
+  PUBLISHED_LOCALES.length > 1 && (
+    <div
+      class={variant === 'header'
+        ? `flex items-center rounded-full border p-0.5 lang-switch ${className}`
+        : `flex items-center gap-2 ${className}`}
+      role="group"
+      aria-label={t('common.language')}
+    >
+      {PUBLISHED_LOCALES.map((locale) => (
+        <a
+          href={switchOverrides?.[locale] ?? urls[locale]}
+          lang={locale}
+          hreflang={locale}
+          aria-current={locale === lang ? 'true' : undefined}
+          aria-label={LOCALE_LABELS[locale]}
+          class={`${base} ${variant === 'header' ? 'nav-link' : ''}`}
+        >
+          {LOCALE_NAMES[locale]}
+        </a>
+      ))}
+    </div>
+  )
+}

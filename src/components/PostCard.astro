@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import type { Post } from '../lib/content';
+import { postSlug } from '../lib/content';
+import { formatDate } from '../lib/dates';
+import { path, type Locale } from '../i18n/utils';
+import { site } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+  post: Post;
+  /** The first article on the index gets a wider, image-led treatment. */
+  featured?: boolean;
+}
+
+const { lang, post, featured = false } = Astro.props;
+
+const href = path(lang, `/news/${postSlug(post)}`);
+const date = formatDate(post.data.pubDate, lang, { khmerNumerals: site.khmer.useKhmerNumerals });
+---
+
+<article
+  class:list={[
+    'reveal group relative flex flex-col overflow-hidden rounded-3xl border border-navy-900/[0.06] bg-white transition-all hover:-translate-y-1 hover:shadow-xl',
+    featured && 'sm:col-span-2 sm:flex-row',
+  ]}
+>
+  {
+    post.data.cover && (
+      <div class:list={['overflow-hidden bg-sand', featured ? 'sm:w-1/2' : '']}>
+        <Image
+          src={post.data.cover}
+          alt={post.data.coverAlt ?? ''}
+          widths={[400, 800, 1200]}
+          sizes={featured ? '(min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 33vw, 100vw'}
+          class:list={[
+            'w-full object-cover transition-transform duration-700 group-hover:scale-105',
+            featured ? 'h-56 sm:h-full' : 'h-48',
+          ]}
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  <div class:list={['flex flex-1 flex-col p-7', featured && 'sm:justify-center lg:p-10']}>
+    <div class="mb-3 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+      <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{date}</time>
+      {
+        post.data.tags.slice(0, 2).map((tag) => (
+          <span class="rounded-full bg-sand px-2.5 py-1 font-medium text-slate-500">{tag}</span>
+        ))
+      }
+    </div>
+
+    <h3
+      class:list={[
+        'font-serif font-semibold leading-snug text-navy-900',
+        featured ? 'text-2xl lg:text-3xl' : 'text-xl',
+      ]}
+    >
+      <a href={href} class="after:absolute after:inset-0 after:content-['']">{post.data.title}</a>
+    </h3>
+
+    <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-500">{post.data.description}</p>
+  </div>
+</article>

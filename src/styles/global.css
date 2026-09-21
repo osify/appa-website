@@ -1,0 +1,378 @@
+/* ============================================================================
+   APP APPRAISAL — global stylesheet
+   ----------------------------------------------------------------------------
+   Tailwind CSS v4. There is no tailwind.config.mjs: the design tokens live in
+   the `@theme` block below, and Tailwind generates the utilities from them.
+
+   Adding a colour here (e.g. `--color-brand-500`) immediately makes
+   `bg-brand-500`, `text-brand-500`, `border-brand-500` etc. available.
+   ============================================================================ */
+
+@import 'tailwindcss';
+
+/* ── Self-hosted fonts ──────────────────────────────────────────────────────
+   All three families are variable fonts split by `unicode-range`, so a browser
+   downloads only the slice it actually needs to render the glyphs on the page:
+
+     Inter Variable          Latin body text
+     Source Serif 4 Variable Latin headings
+     Kantumruy Pro Variable  ALL Khmer text — headings and body
+
+   Kantumruy Pro is a contemporary Khmer typeface (by Danh Hong) drawn for
+   screen use: its coeng and diacritics stay legible at UI sizes where Noto's
+   do not. One file covers weights 100–700, so avoid `font-extrabold`/`black`
+   on Khmer text — 700 is the ceiling and heavier weights will synthesise.
+
+   Nothing downloads until a glyph needs it, so an English page never pays for
+   the Khmer file — except for the "ខ្មែរ" label on the language switch, which
+   is why that one label is worth the request.                                 */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/source-serif-4/wght.css';
+@import '@fontsource-variable/kantumruy-pro/wght.css';
+
+/* ── Design tokens ───────────────────────────────────────────────────────────
+   Taken from the APP logo and the signed-off prototype. Change a value here and
+   it changes everywhere on the site.                                          */
+@theme {
+  /* Primary dark — headers, dark sections, body text */
+  --color-navy-900: #0b1622;
+  --color-navy-800: #12233a;
+  --color-navy-700: #1b3554;
+  --color-navy-600: #2a4a6e;
+
+  /* Body copy / muted text */
+  --color-slate-500: #56697c;
+  --color-slate-400: #7c8ca0;
+
+  /* Brand accent, taken from the APP logo */
+  --color-gold-300: #efe0bc;
+  --color-gold-400: #e0c88a;
+  --color-gold-500: #c6a662;
+  --color-gold-600: #a9873f;
+
+  /* Warm neutral band */
+  --color-sand: #f7f4ee;
+
+  /* A serif for headings reads as considered and financial — it is the main
+     visual differentiator from the all-sans competition. */
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Page gutter width — powers `max-w-content` */
+  --container-content: 1200px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed header height, so #anchor links don't land under it */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tailwind v4 resets borders to `currentColor`; restore a sane default so an
+     un-coloured `border` utility doesn't render as a hard navy line. */
+  *,
+  ::after,
+  ::before {
+    border-color: color-mix(in oklab, var(--color-navy-900) 12%, transparent);
+  }
+
+  /* Visible, on-brand focus for keyboard users on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ============================================================================
+   KHMER TYPOGRAPHY  —  html[lang="km"]
+   ----------------------------------------------------------------------------
+   Khmer is not Latin with different glyphs; it has real typographic needs that
+   the Latin styles actively break. Do not delete these rules — each one fixes a
+   specific rendering bug:
+
+   1. LINE-HEIGHT. Khmer stacks diacritics above the baseline and subscript
+      consonants (coeng) below it. The display leading used for English (1.08)
+      clips both. Khmer needs roughly 1.5–1.9.
+   2. LETTER-SPACING. Latin tracking (0.22em on eyebrows, -0.02em on headings)
+      pulls a coeng away from the base character it belongs to, which changes
+      how the word reads. Khmer must be `normal`.
+   3. NO LETTER CASE. `text-transform: uppercase` is inert on Khmer, so tiny
+      uppercase micro-labels lose their styling cue — they are sized up instead.
+   4. WORD WRAP. Khmer has no spaces between words; browsers break lines using
+      dictionary data. `word-break` is deliberately left alone — forcing
+      `break-word` would split inside a cluster and produce nonsense.
+   5. ONE FAMILY. Kantumruy Pro covers Khmer headings *and* body. Khmer has no
+      established serif/sans pairing the way Latin does, so the Latin site's
+      serif-heading contrast is carried by weight and size in Khmer instead.
+   ============================================================================ */
+html[lang='km'] body,
+html[lang='km'] .font-sans,
+html[lang='km'] .font-serif {
+  font-family: 'Kantumruy Pro Variable', 'Noto Sans Khmer', system-ui, sans-serif;
+}
+
+/* Kantumruy Pro stops at 700. Anything heavier would be synthesised by the
+   browser, which smears the thin coeng strokes — clamp it. */
+html[lang='km'] .font-extrabold,
+html[lang='km'] .font-black {
+  font-weight: 700 !important;
+}
+
+/* Tailwind's arbitrary leading/tracking utilities are single-class specificity,
+   so these need !important to win. Scoped to km only — English is untouched. */
+html[lang='km'] * {
+  letter-spacing: normal !important;
+}
+html[lang='km'] h1 {
+  line-height: 1.5 !important;
+}
+html[lang='km'] h2 {
+  line-height: 1.55 !important;
+}
+html[lang='km'] h3,
+html[lang='km'] h4 {
+  line-height: 1.7 !important;
+}
+html[lang='km'] p,
+html[lang='km'] li,
+html[lang='km'] label,
+html[lang='km'] blockquote,
+html[lang='km'] figcaption {
+  line-height: 1.9 !important;
+}
+
+/* Khmer runs longer than English and its glyphs are taller — ease the display
+   sizes down a notch so headlines don't swamp their sections. */
+html[lang='km'] h1 {
+  font-size: clamp(1.75rem, 3.4vw, 3.1rem) !important;
+}
+html[lang='km'] h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2.4rem) !important;
+}
+
+/* Tiny uppercase Latin labels are unreadable in Khmer at 10–11px. */
+html[lang='km'] .eyebrow,
+html[lang='km'] .microlabel {
+  font-size: 0.78rem !important;
+  text-transform: none !important;
+}
+
+/* ── Barcode motif ───────────────────────────────────────────────────────────
+   The vertical-line pattern from the APP logo, reused as a watermark on dark
+   sections. The page's brand signature, and pure CSS. Inherits `currentColor`,
+   so `text-gold-500` on the element tints it.                                 */
+.barcode {
+  background-image: repeating-linear-gradient(
+    90deg,
+    currentColor 0px,
+    currentColor 2px,
+    transparent 2px,
+    transparent 5px,
+    currentColor 5px,
+    currentColor 6px,
+    transparent 6px,
+    transparent 11px,
+    currentColor 11px,
+    currentColor 14px,
+    transparent 14px,
+    transparent 17px
+  );
+}
+
+/**
+ * Where the barcode is used as a large background watermark it needs its edges
+ * feathered, otherwise the repeating gradient stops dead and draws a hard
+ * vertical seam across the section. The logo mark deliberately does NOT get
+ * this — its stripes should stay crisp.
+ */
+.barcode-soft {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 65%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 65%, #000 100%);
+}
+.barcode-soft-reverse {
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 35%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 35%, transparent 100%);
+}
+
+/* ── Scroll reveal ───────────────────────────────────────────────────────────
+   CRITICAL: the hidden state is scoped to `.js`, a class set by an inline
+   script in <head>. Content must never depend on JavaScript to become visible —
+   without this scoping, a visitor with JS disabled (or any browser where
+   IntersectionObserver doesn't fire) sees a completely blank page.            */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .motion-safe-only {
+    animation: none !important;
+  }
+}
+
+/* ── Link underline sweep ───────────────────────────────────────────────── */
+.link-underline {
+  background-image: linear-gradient(var(--color-gold-500), var(--color-gold-500));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover,
+.link-underline[aria-current='page'] {
+  background-size: 100% 1px;
+}
+
+/* ── Language switch ─────────────────────────────────────────────────────── */
+.lang-btn {
+  transition: all 0.25s ease;
+}
+.lang-btn[aria-current='true'] {
+  background: var(--color-gold-500);
+  color: var(--color-navy-900);
+  font-weight: 700;
+}
+/* The switch's Khmer label must render in a Khmer face even on English pages,
+   where the `html[lang="km"]` rules above do not apply. */
+.lang-btn[lang='km'] {
+  font-family: 'Kantumruy Pro Variable', sans-serif;
+}
+
+/* ── Long-form article body (blog posts, legal pages) ────────────────────────
+   Markdown has no classes to hook onto, so it is styled by element here.      */
+.prose-app {
+  color: var(--color-slate-500);
+  line-height: 1.85;
+}
+.prose-app > * + * {
+  margin-top: 1.35em;
+}
+.prose-app h2,
+.prose-app h3,
+.prose-app h4 {
+  font-family: var(--font-serif);
+  color: var(--color-navy-900);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 2.2em;
+  margin-bottom: 0.6em;
+  scroll-margin-top: 6rem;
+}
+.prose-app h2 {
+  font-size: 1.75rem;
+}
+.prose-app h3 {
+  font-size: 1.35rem;
+}
+.prose-app h4 {
+  font-size: 1.1rem;
+}
+.prose-app a {
+  color: var(--color-navy-900);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold-500);
+  text-underline-offset: 3px;
+}
+.prose-app a:hover {
+  color: var(--color-gold-600);
+}
+.prose-app strong {
+  color: var(--color-navy-900);
+  font-weight: 600;
+}
+.prose-app ul,
+.prose-app ol {
+  padding-left: 1.4em;
+}
+.prose-app ul {
+  list-style: disc;
+}
+.prose-app ol {
+  list-style: decimal;
+}
+.prose-app li + li {
+  margin-top: 0.5em;
+}
+.prose-app li::marker {
+  color: var(--color-gold-500);
+}
+.prose-app blockquote {
+  border-left: 2px solid var(--color-gold-500);
+  background: var(--color-sand);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--color-navy-900);
+}
+.prose-app blockquote > * + * {
+  margin-top: 0.75em;
+}
+.prose-app img {
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+}
+.prose-app hr {
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--color-navy-900) 10%, transparent);
+  margin: 2.5em 0;
+}
+.prose-app code {
+  font-size: 0.9em;
+  background: var(--color-sand);
+  padding: 0.15em 0.4em;
+  border-radius: 0.3rem;
+  color: var(--color-navy-900);
+}
+.prose-app pre {
+  background: var(--color-navy-900);
+  color: #e8edf3;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+.prose-app pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+.prose-app table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.prose-app th,
+.prose-app td {
+  border: 1px solid color-mix(in oklab, var(--color-navy-900) 10%, transparent);
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+}
+.prose-app th {
+  background: var(--color-sand);
+  color: var(--color-navy-900);
+  font-weight: 600;
+}

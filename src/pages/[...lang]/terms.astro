@@ -1,0 +1,20 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import { localePaths, resolveLocale, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = resolveLocale(Astro.params.lang);
+const t = useTranslations(lang);
+---
+
+<LegalPage
+  lang={lang}
+  slug="terms"
+  route="/terms"
+  title={t('meta.terms.title')}
+  description={t('meta.terms.description')}
+  crumbLabel={t('footer.terms')}
+/>

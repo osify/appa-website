@@ -1,0 +1,6 @@
+# APP Appraisal
+User-agent: *
+Allow: /
+
+# Update the host if the site launches on a different domain.
+Sitemap: https://app-appraisal.com/sitemap-index.xml

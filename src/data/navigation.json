@@ -1,0 +1,27 @@
+{
+  "_readme": "THE MENUS. `labelKey` points at a key in src/i18n/en.json and km.json — wording lives there, so a label is translated once and reused in every menu. `href` is a plain site path; the language prefix (/km) and the deployment base path are added automatically, so never write them here. `feature` optionally names a switch in site.json → features: when that switch is off, the item disappears from every menu. `childrenFrom`/`itemsFrom` set to \"services\" pull the three service names straight out of services.json, so a service is renamed in exactly one place.",
+
+  "main": [
+    { "labelKey": "nav.about", "href": "/about" },
+    { "labelKey": "nav.standards", "href": "/standards", "feature": "standardsPage" },
+    { "labelKey": "nav.services", "href": "/services", "childrenFrom": "services" },
+    { "labelKey": "nav.network", "href": "/network", "feature": "network" },
+    { "labelKey": "nav.leadership", "href": "/leadership", "feature": "leadershipPage" },
+    { "labelKey": "nav.news", "href": "/news", "feature": "news" }
+  ],
+
+  "footerCompany": [
+    { "labelKey": "nav.about", "href": "/about" },
+    { "labelKey": "nav.leadership", "href": "/leadership", "feature": "leadershipPage" },
+    { "labelKey": "nav.network", "href": "/network", "feature": "network" },
+    { "labelKey": "nav.news", "href": "/news", "feature": "news" },
+    { "labelKey": "nav.contact", "href": "/contact" }
+  ],
+
+  "footerServices": { "itemsFrom": "services" },
+
+  "footerLegal": [
+    { "labelKey": "footer.terms", "href": "/terms" },
+    { "labelKey": "footer.privacy", "href": "/privacy" }
+  ]
+}

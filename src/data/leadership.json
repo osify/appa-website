@@ -1,0 +1,71 @@
+[
+  {
+    "id": "sorn-seap",
+    "order": 1,
+    "featured": true,
+    "initials": "SS",
+    "name": {
+      "en": "Mr. Sorn Seap",
+      "km": "លោក សន សៀប"
+    },
+    "role": {
+      "en": "Chairman",
+      "km": "ប្រធាន"
+    },
+    "bio": {
+      "en": "A real estate professional with over 20 years of experience in Cambodia's property sector. He is the Chairman of Juwai Cambodia, where he leads the growth and development of a globally connected real estate platform in Cambodia. He also serves as President of the Cambodian Valuers and Estate Agents Association (CVEA), Chairman of Asia Pacific Property Appraisal, and Chairperson of the Judging Panel for the PropertyGuru Cambodia Property Awards — contributing to the advancement of professional standards and practices in real estate valuation, agency and investment.",
+      "km": "អ្នកជំនាញអចលនទ្រព្យដែលមានបទពិសោធន៍ជាង ២០ ឆ្នាំក្នុងវិស័យអចលនទ្រព្យកម្ពុជា។ លោកជាប្រធាន Juwai Cambodia ដែលលោកដឹកនាំការរីកចម្រើន និងការអភិវឌ្ឍវេទិកាអចលនទ្រព្យភ្ជាប់ជាសកលនៅកម្ពុជា។ លោកក៏បម្រើការជាប្រធានសមាគមអ្នកវាយតម្លៃ និងភ្នាក់ងារអចលនទ្រព្យកម្ពុជា (CVEA) ជាប្រធានក្រុមហ៊ុន Asia Pacific Property Appraisal និងជាប្រធានគណៈវិនិច្ឆ័យនៃ PropertyGuru Cambodia Property Awards ដោយរួមចំណែកលើកកម្ពស់ស្តង់ដារ និងការអនុវត្តវិជ្ជាជីវៈក្នុងវិស័យវាយតម្លៃអចលនទ្រព្យ ភ្នាក់ងារ និងវិនិយោគ។"
+    },
+    "qualifications": [
+      { "en": "MBA — Norton University", "km": "MBA — សាកលវិទ្យាល័យន័រតុន" },
+      { "en": "BBA — National University of Management", "km": "BBA — សាកលវិទ្យាល័យជាតិគ្រប់គ្រង" }
+    ],
+    "memberships": [
+      { "en": "President, CVEA", "km": "ប្រធាន, CVEA" },
+      {
+        "en": "Chair of Judges, PropertyGuru Cambodia Property Awards",
+        "km": "ប្រធានគណៈវិនិច្ឆ័យ, PropertyGuru Cambodia Property Awards"
+      },
+      { "en": "Chairman, Juwai Cambodia", "km": "ប្រធាន, Juwai Cambodia" }
+    ],
+    "photo": "/images/leadership/sorn-seap.jpg",
+    "onHomepage": true
+  },
+  {
+    "id": "ngorn-sokun-rathna",
+    "order": 2,
+    "featured": false,
+    "initials": "NR",
+    "name": {
+      "en": "Mr. Ngorn Sokun Rathna",
+      "km": "លោក ង៉ន សុគន្ធ រ័ត្ន"
+    },
+    "role": {
+      "en": "General Manager",
+      "km": "អគ្គនាយក"
+    },
+    "bio": {
+      "en": "Joined Asia Pacific Property Appraisal in January 2022, with over 15 years in property valuation, banking operations and financial services. He leads the valuation team, reviews and approves reports, develops valuation standards and operating systems, and builds the firm's partnerships with banks, auditors, investors and institutional clients.",
+      "km": "បានចូលរួមជាមួយ Asia Pacific Property Appraisal ក្នុងខែមករា ២០២២ ដោយមានបទពិសោធន៍ជាង ១៥ ឆ្នាំក្នុងការវាយតម្លៃអចលនទ្រព្យ ប្រតិបត្តិការធនាគារ និងសេវាហិរញ្ញវត្ថុ។ លោកដឹកនាំក្រុមវាយតម្លៃ ត្រួតពិនិត្យ និងអនុម័តរបាយការណ៍ អភិវឌ្ឍស្តង់ដារវាយតម្លៃ និងប្រព័ន្ធប្រតិបត្តិការ ព្រមទាំងកសាងភាពជាដៃគូជាមួយធនាគារ សវនករ វិនិយោគិន និងអតិថិជនស្ថាប័ន។"
+    },
+    "qualifications": [
+      {
+        "en": "MA Financial Management — Royal University of Law and Economics",
+        "km": "អនុបណ្ឌិតគ្រប់គ្រងហិរញ្ញវត្ថុ — សាកលវិទ្យាល័យភូមិន្ទនីតិសាស្ត្រ និងវិទ្យាសាស្ត្រសេដ្ឋកិច្ច"
+      },
+      {
+        "en": "BA Banking & Finance — Norton University",
+        "km": "បរិញ្ញាបត្រធនាគារ និងហិរញ្ញវត្ថុ — សាកលវិទ្យាល័យន័រតុន"
+      },
+      {
+        "en": "Associate Degree in English — Build Bright University",
+        "km": "បរិញ្ញាបត្ររងផ្នែកភាសាអង់គ្លេស — សាកលវិទ្យាល័យបៀលប្រាយ"
+      }
+    ],
+    "memberships": [
+      { "en": "Trained to IVS & RICS standards", "km": "បណ្តុះបណ្តាលតាមស្តង់ដារ IVS និង RICS" }
+    ],
+    "photo": "",
+    "onHomepage": true
+  }
+]

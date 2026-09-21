@@ -1,0 +1,85 @@
+{
+  "_readme": "SITE-WIDE SETTINGS. Company details, contact information, social links and feature switches. Edit the values, not the key names. Any field written as { \"en\": \"…\", \"km\": \"…\" } is bilingual — fill both. An empty string means 'not supplied yet', and the site hides that item rather than showing a blank.",
+
+  "name": "APP Appraisal",
+  "legalName": {
+    "en": "Asia Pacific Property Appraisal Co., Ltd.",
+    "km": "ក្រុមហ៊ុន Asia Pacific Property Appraisal Co., Ltd."
+  },
+  "founded": 2021,
+  "tagline": {
+    "en": "Cambodia rooted · Asia connected",
+    "km": "ចាក់ឫសនៅកម្ពុជា · ភ្ជាប់ជាមួយអាស៊ី"
+  },
+
+  "contact": {
+    "phones": [
+      { "display": "(+855) 78 512 888", "href": "tel:+85578512888" },
+      { "display": "(+855) 78 612 888", "href": "tel:+85578612888" }
+    ],
+    "email": "info@app-appraisal.com",
+    "address": {
+      "en": "TK Roundabout Building, Street 289,\nPhum 12, Sangkat Boeung Kak II,\nKhan Tuol Kork, Phnom Penh,\nKingdom of Cambodia",
+      "km": "អគារ TK Roundabout ផ្លូវលេខ ២៨៩\nភូមិ ១២ សង្កាត់បឹងកក់ទី២\nខណ្ឌទួលគោក រាជធានីភ្នំពេញ\nព្រះរាជាណាចក្រកម្ពុជា"
+    },
+    "addressShort": {
+      "en": "TK Roundabout Building, Street 289, Phum 12, Sangkat Boeung Kak II, Khan Tuol Kork, Phnom Penh",
+      "km": "អគារ TK Roundabout ផ្លូវលេខ ២៨៩ ភូមិ ១២ សង្កាត់បឹងកក់ទី២ ខណ្ឌទួលគោក រាជធានីភ្នំពេញ"
+    },
+    "hours": {
+      "en": "",
+      "km": ""
+    },
+    "mapUrl": "https://maps.app.goo.gl/RRsLKfRyaKv175Kv9",
+    "mapEmbedUrl": "",
+    "telegram": "https://t.me/+85578512888",
+    "telegramDisplay": "(+855) 78 512 888"
+  },
+
+  "social": [
+    { "name": "Facebook", "url": "", "icon": "facebook" },
+    { "name": "LinkedIn", "url": "", "icon": "linkedin" },
+    { "name": "Telegram", "url": "", "icon": "telegram" }
+  ],
+
+  "registration": {
+    "businessNumber": "",
+    "vatTin": "",
+    "cveaLicence": ""
+  },
+
+  "khmer": {
+    "_readme": "The Khmer site. `published` is the launch switch: with it false, every /km/… page is still built and reachable by URL — so the Khmer copy can be read and reviewed — but it is not offered to visitors. The EN/ខ្មែរ switch disappears from the header and the mobile drawer, no hreflang alternates are emitted, the /km pages carry `noindex` and are kept out of the sitemap. Nothing is deleted: km.json and every { en, km } field stay as they are, so flipping this to true publishes Khmer again. `useKhmerNumerals` decides whether the Khmer site renders numbers in Khmer numerals (០១២៣) or Arabic (0123) — the open decision on the 'Numerals' row of the Khmer Glossary sheet. Set it once here and every date, statistic and figure follows.",
+    "published": false,
+    "useKhmerNumerals": true
+  },
+
+  "features": {
+    "_readme": "Switch whole sections and pages off without deleting their content — useful for launching before every section is signed off. `network` is OFF pending review: the Asia Network section claimed APP is the Cambodia practice of the Twin Pillars group (Open Question #1), sourced from twinpillars.asia rather than from APP. With the switch off, the section, its nav entry, its page and the '6 Asian markets' statistic all disappear together; network.json and the section component stay in place, so confirming the relationship in writing is a one-line flip back to true. `news` is OFF for launch — the nav entries, /news and every article page disappear; the articles stay in src/content/blog/. `partners` controls the 'Our Partners' block at the foot of /leadership — set it to false and the block disappears; the people stay in partners.json.",
+    "network": false,
+    "standardsPage": true,
+    "news": false,
+    "leadershipPage": true,
+    "partners": true
+  },
+
+  "images": {
+    "_readme": "Photography, as paths inside the public/ folder — e.g. \"/images/hero.jpg\" for the file public/images/hero.jpg. Leave a value empty and the design falls back to its plain dark treatment, which looks deliberate; it never renders a broken image. Use owned or licensed photography only. Suggested sizes: hero 2400×1400, about 1600×1000, og 1200×630.",
+    "hero": "",
+    "heroAlt": {
+      "en": "The Phnom Penh skyline",
+      "km": "ទេសភាពក្រុងភ្នំពេញ"
+    },
+    "about": "",
+    "aboutAlt": {
+      "en": "The APP Appraisal team at work",
+      "km": "ក្រុមការងារ APP Appraisal"
+    }
+  },
+
+  "seo": {
+    "_readme": "ogImage is the picture shown when a page is shared on Facebook, Telegram or LinkedIn. Leave it empty until a real 1200x630 image exists in public/images/ — an og:image pointing at a missing file is worse than none. Then set it to e.g. \"/images/og-default.jpg\".",
+    "ogImage": "",
+    "twitterHandle": ""
+  }
+}

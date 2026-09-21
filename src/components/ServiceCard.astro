@@ -1,0 +1,74 @@
+---
+/**
+ * A service, rendered as a tall image card. Used on the homepage and on the
+ * /services index. Content comes from src/data/services.json.
+ */
+import Icon from './Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+import { path, pick, pickList, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  service: CollectionEntry<'services'>;
+  index: number;
+}
+
+const { lang, service, index } = Astro.props;
+const t = useTranslations(lang);
+
+const href = path(lang, `/services/${service.id}`);
+const tags = pickList(service.data.assetTypes, lang);
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const number = String(index + 1).padStart(2, '0');
+---
+
+<article
+  class="reveal group relative flex min-h-[480px] flex-col justify-end overflow-hidden rounded-3xl bg-navy-900"
+>
+  {
+    service.data.image && (
+      <img
+        src={`${base}${service.data.image}`}
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover opacity-45 transition-transform duration-700 group-hover:scale-105"
+        loading="lazy"
+        decoding="async"
+      />
+    )
+  }
+  <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/80 to-navy-900/10"></div>
+  <div class="barcode barcode-soft pointer-events-none absolute right-0 top-0 h-32 w-24 text-gold-500 opacity-[0.08]"></div>
+
+  <div class="relative p-8">
+    <span class="mb-4 inline-block font-serif text-sm font-semibold tracking-wider text-gold-500">
+      {number}
+    </span>
+
+    <h3 class="mb-4 font-serif text-2xl font-semibold leading-snug text-white lg:text-[1.75rem]">
+      <a href={href} class="after:absolute after:inset-0 after:content-['']">
+        {pick(service.data.name, lang)}
+      </a>
+    </h3>
+
+    <p class="mb-6 leading-relaxed text-white/60">{pick(service.data.summary, lang)}</p>
+
+    {
+      tags.length > 0 && (
+        <ul class="mb-7 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li class="rounded-full border border-gold-500/30 px-3 py-1 text-[11px] font-medium tracking-wide text-gold-300">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <span
+      class="inline-flex items-center gap-2 text-sm font-semibold text-white transition-colors group-hover:text-gold-400"
+    >
+      {t('common.learnMore')}
+      <Icon name="arrow-right" class="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1" />
+    </span>
+  </div>
+</article>

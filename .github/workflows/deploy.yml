@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Publish whenever the default branch changes — editing a .md or .json file
+  # through the GitHub web UI is enough to trigger a rebuild and redeploy.
+  push:
+    branches: [main]
+  # …and allow a manual run from the Actions tab.
+  workflow_dispatch:
+
+# Required for the deploy-pages action to publish.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys run at once, but do not cancel one that is mid-flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check content and components
+        # Catches a mistyped field in a .json or .md file before it ships.
+        run: npm run check
+
+      - name: Build
+        env:
+          # The site is published on its own domain (public/CNAME), so the
+          # origin is pinned rather than taken from `configure-pages`: until
+          # the custom domain is verified in Settings → Pages, that action
+          # reports https://osify.github.io/appa-website, and every canonical
+          # URL, sitemap entry and og:url in the build would point there.
+          # If the domain ever changes, change it here and in public/CNAME.
+          SITE_URL: https://app-appraisal.com
+          SITE_BASE: /
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

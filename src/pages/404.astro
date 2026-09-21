@@ -1,0 +1,103 @@
+---
+/**
+ * Not-found page.
+ *
+ * Deliberately NOT under `[...lang]`: GitHub Pages serves `/404.html` from the
+ * site root for every unmatched request, whatever the path, so this file must
+ * build to exactly `dist/404.html`. A `/km/404/` variant would never be reached.
+ *
+ * Because it answers requests in both languages, it offers a route back in
+ * every published language rather than guessing which one the visitor wanted.
+ * While Khmer is unpublished (`khmer.published` in site.json) it is English
+ * only — an unreviewed Khmer sentence should not be the first thing a lost
+ * visitor reads.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { PUBLISHED_LOCALES, LOCALE_LABELS, path, useTranslations, type Locale } from '../i18n/utils';
+
+const lang: Locale = 'en';
+const t = useTranslations(lang);
+const tKm = useTranslations('km');
+
+/**
+ * There is no `/km/404`, so the header's language switch must not offer one —
+ * send it to each language's homepage instead. Without this the page links to a
+ * URL that does not exist, which is a poor look on the page whose entire job is
+ * recovering from exactly that.
+ */
+const switchOverrides: Partial<Record<Locale, string>> = {
+  en: path('en', '/'),
+  km: path('km', '/'),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  route="/404"
+  title={t('meta.notFound.title')}
+  description={t('meta.notFound.description')}
+  noindex
+  hreflang={false}
+  switchOverrides={switchOverrides}
+>
+  <section class="relative flex min-h-screen items-center overflow-hidden bg-navy-900">
+    <div class="barcode barcode-soft pointer-events-none absolute right-0 top-0 h-full w-1/3 text-gold-500 opacity-[0.06]"></div>
+
+    <div class="relative mx-auto w-full max-w-content px-6 py-32 lg:px-10">
+      <div class="max-w-2xl">
+        <p class="font-serif text-7xl font-semibold text-gold-500 lg:text-8xl">
+          {t('notFound.code')}
+        </p>
+
+        <h1 class="mt-6 font-serif text-3xl font-semibold leading-tight text-white lg:text-5xl">
+          {t('notFound.title')}
+        </h1>
+        <p class="mt-5 text-lg leading-relaxed text-white/60">{t('notFound.sub')}</p>
+
+        {
+          PUBLISHED_LOCALES.includes('km') && (
+            <p lang="km" class="mt-8 border-t border-white/10 pt-8 text-lg text-white/50">
+              {tKm('notFound.title')}
+            </p>
+          )
+        }
+
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+          {
+            PUBLISHED_LOCALES.map((locale) => (
+              <a
+                href={path(locale, '/')}
+                lang={locale}
+                hreflang={locale}
+                class:list={[
+                  'group inline-flex items-center justify-center gap-2.5 rounded-full px-8 py-4 font-semibold transition-all',
+                  locale === 'en'
+                    ? 'bg-gold-500 text-navy-900 hover:bg-gold-400'
+                    : 'border border-white/25 text-white hover:border-white/40 hover:bg-white/10',
+                ]}
+              >
+                {locale === 'en' ? t('notFound.backHome') : tKm('notFound.backHome')}
+                <span class="sr-only"> — {LOCALE_LABELS[locale]}</span>
+                <Icon
+                  name="arrow-right"
+                  class="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1"
+                />
+              </a>
+            ))
+          }
+        </div>
+
+        <p class="mt-8 text-sm text-white/40">
+          {t('notFound.orContact')}
+          <a
+            href={path(lang, '/contact')}
+            class="ml-1 font-medium text-gold-400 underline underline-offset-4 transition-colors hover:text-gold-300"
+          >
+            {t('nav.contact')}
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

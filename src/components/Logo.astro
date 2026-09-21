@@ -1,0 +1,31 @@
+---
+/**
+ * The APP wordmark.
+ *
+ * ⚠ TODO (content plan, sheet 7 — Images & Assets): this is a CSS
+ * approximation of the logo, not the real artwork. When the vector wordmark is
+ * supplied, drop it into `public/images/logo.svg` and replace the markup below
+ * with an <img>. The barcode motif under the wordmark is lifted from the logo
+ * and reused across the site as a brand signature.
+ *
+ * The barcode and the caption both inherit `currentColor`, so the colour is set
+ * once by whatever wraps this component. That is what lets the header recolour
+ * the whole mark with a single class as it scrolls from transparent to solid —
+ * previously the caption was hard-coded white and vanished on the white header.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['flex flex-col items-center', className]}>
+  <span class="rounded-full bg-gold-500 px-3 py-0.5">
+    <span class="font-serif text-lg font-bold leading-none tracking-tight text-navy-900">APP</span>
+  </span>
+  <span class="barcode mt-1 h-3 w-16 transition-colors duration-500"></span>
+  <span class="mt-0.5 text-[7px] font-semibold tracking-[0.2em] transition-colors duration-500">
+    APPRAISAL
+  </span>
+</span>
