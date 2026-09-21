@@ -3,9 +3,10 @@
  * A leadership profile.
  *
  * `featured` renders the wide dark card used for the Chairman; everything else
- * renders as a sand tile. Until a photograph is supplied (photo: "" in
+ * renders as a sand tile. With no photograph (photo: "" in
  * src/data/leadership.json) the card shows a monogram, which looks intentional
- * rather than broken.
+ * rather than broken — and for everyone but the Chairman that is the settled
+ * presentation, not a placeholder waiting on a file.
  */
 import type { CollectionEntry } from 'astro:content';
 import { pick, pickList, useTranslations, type Locale } from '../i18n/utils';

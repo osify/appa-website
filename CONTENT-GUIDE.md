@@ -105,6 +105,10 @@ All in **`src/data/site.json`**. A few things worth knowing:
 - **`features`** switches whole sections off without deleting them. Setting
   `"network": false` removes the Asia Network section, its page, its menu entries
   *and* the "6 Asian markets" statistic, all at once.
+- **`khmer.published`** decides whether Khmer is offered to visitors. It is
+  `false` for now: the Khmer pages are still built and reachable by URL for
+  review, but there is no language switch and search engines are told to skip
+  them. Set it to `true` once the Khmer has been reviewed.
 - **`khmer.useKhmerNumerals`** decides whether the Khmer site writes numbers as
   ០១២៣ or 0123. One setting, applied to every date and figure on the site.
 
@@ -128,7 +132,8 @@ anyone has already shared — so avoid it once the site is live.
 
 - `featured: true` gives that person the wide dark card. Only one person should
   have it.
-- `initials` is the monogram shown until a photograph is supplied.
+- `initials` is the monogram shown when there is no photograph. Mr. Ngorn Sokun
+  Rathna has no portrait by decision, so his monogram is final, not a placeholder.
 - To add a photograph: put the file in `public/images/leadership/`, then set
   `"photo": "/images/leadership/their-name.jpg"`.
 - `order` controls the sequence.
@@ -151,6 +156,7 @@ title.
   simply does not appear.
 - Photographs work exactly as they do for leadership: put the file in
   `public/images/partners/` and set `"photo": "/images/partners/their-name.jpg"`.
+  Neither current partner has one by decision — both monograms are final.
 - To hide the whole block without deleting anyone, set `features.partners` to
   `false` in `site.json`.
 
@@ -292,6 +298,11 @@ treatment — which looks deliberate rather than unfinished. **Leave a path empt
 until the file actually exists**; pointing at a missing file shows a broken image
 to every visitor.
 
+**The people without portraits are settled, not pending.** Mr. Ngorn Sokun Rathna,
+Mr. Milton Tan and Mr. Siong Yoong are shown as monograms by decision — their
+cards are finished as they are, and nobody needs to chase photographs for them.
+Only Mr. Sorn Seap's card carries a portrait.
+
 ---
 
 ## How visitors get in touch
@@ -344,16 +355,16 @@ the content-plan workbook.
 
 | # | Needed | Where it goes |
 |---|---|---|
-| 1 | **Confirm the Twin Pillars relationship in writing** | If not confirmed, set `features.network` to `false` |
+| 1 | **Confirm the Twin Pillars relationship in writing** | Not confirmed, so `features.network` is now `false` and the section is off. Confirm it to switch back on |
 | 2 | Real figures: valuations completed, portfolio value, institutional clients | `stats.json` |
-| 3 | Native Khmer review of every string | `km.json`, `services.json`, `leadership.json`, `partners.json`, all `.md` |
+| 3 | Native Khmer review of every string | `km.json`, `services.json`, `leadership.json`, `partners.json`, all `.md`. The Khmer pages are built but unpublished (`khmer.published`) until this is done |
 | 4 | Legal review of the terms and privacy drafts | `src/content/legal/` |
-| 5 | Official public-holiday list + the seven missing holiday names | `holidays.json` |
+| 5 | Official public-holiday list + the seven missing holiday names | `holidays.json`. The block is hidden for now (`features.holidays`), so this is only needed if it is switched back on |
 | 6 | The real APP wordmark as an SVG | `public/images/`, then `Logo.astro` |
-| 7 | Photography: hero, about, three services, one leadership portrait, two partner portraits | `public/images/` |
+| 7 | Photography: hero, about, three services | `public/images/`. Portraits are settled — only Mr. Sorn Seap has one, the other three are monograms by decision |
 | 8 | Written permission before using the IVS / RICS logos | `standards.json` → `logo` |
 | 9 | Facebook URL, LinkedIn if one exists, Telegram | `site.json` → `social` |
-| 10 | Office hours, Google Maps link, registration numbers | `site.json` |
+| 10 | Office hours, registration numbers | `site.json`. The address and the Google Maps link are now supplied |
 | 11 | The real response-time commitment, if any | `contact.sub` in `en.json` |
 
 On #11: the prototype promised a reply "usually within one business day". That was
