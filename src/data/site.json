@@ -55,12 +55,13 @@
   },
 
   "features": {
-    "_readme": "Switch whole sections and pages off without deleting their content — useful for launching before every section is signed off. `network` is OFF pending review: the Asia Network section claimed APP is the Cambodia practice of the Twin Pillars group (Open Question #1), sourced from twinpillars.asia rather than from APP. With the switch off, the section, its nav entry, its page and the '6 Asian markets' statistic all disappear together; network.json and the section component stay in place, so confirming the relationship in writing is a one-line flip back to true. `news` is OFF for launch — the nav entries, /news and every article page disappear; the articles stay in src/content/blog/. `partners` controls the 'Our Partners' block at the foot of /leadership — set it to false and the block disappears; the people stay in partners.json.",
+    "_readme": "Switch whole sections and pages off without deleting their content — useful for launching before every section is signed off. `network` is OFF pending review: the Asia Network section claimed APP is the Cambodia practice of the Twin Pillars group (Open Question #1), sourced from twinpillars.asia rather than from APP. With the switch off, the section, its nav entry, its page and the '6 Asian markets' statistic all disappear together; network.json and the section component stay in place, so confirming the relationship in writing is a one-line flip back to true. `news` is OFF for launch — the nav entries, /news and every article page disappear; the articles stay in src/content/blog/. `holidays` is OFF: the 'Public holidays · office closed' block at the foot of the contact section is hidden, and the dates stay in holidays.json. `partners` controls the 'Our Partners' block at the foot of /leadership — set it to false and the block disappears; the people stay in partners.json.",
     "network": false,
     "standardsPage": true,
     "news": false,
     "leadershipPage": true,
-    "partners": true
+    "partners": true,
+    "holidays": false
   },
 
   "images": {

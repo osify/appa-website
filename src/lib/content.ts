@@ -77,9 +77,16 @@ export async function getStats(): Promise<CollectionEntry<'stats'>[]> {
  * stale, but only if that still leaves something to show — an empty "we are
  * closed on these days" heading looks broken.
  */
+/**
+ * Public holidays / office closures.
+ * Switched off as a group by site.json → features.holidays, which empties the
+ * list and so removes the whole block from the contact section.
+ */
 export async function getHolidays(
   opts: { upcomingOnly?: boolean; limit?: number } = {},
 ): Promise<CollectionEntry<'holidays'>[]> {
+  if (!isEnabled('holidays')) return [];
+
   const all = (await getCollection('holidays')).sort((a, b) =>
     a.data.date.localeCompare(b.data.date),
   );
