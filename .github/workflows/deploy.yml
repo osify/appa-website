@@ -45,14 +45,26 @@ jobs:
 
       - name: Build
         env:
-          # The site is published on its own domain (public/CNAME), so the
-          # origin is pinned rather than taken from `configure-pages`: until
-          # the custom domain is verified in Settings → Pages, that action
-          # reports https://osify.github.io/appa-website, and every canonical
-          # URL, sitemap entry and og:url in the build would point there.
-          # If the domain ever changes, change it here and in public/CNAME.
-          SITE_URL: https://app-appraisal.com
-          SITE_BASE: /
+          # ── INTERIM: project-site URLs ────────────────────────────────────
+          # The site is destined for its own domain (see public/CNAME), but
+          # app-appraisal.com still points at the previous host, so for now it
+          # is served from the project site and these two values must match
+          # that: `base` is what prefixes every stylesheet, script and link,
+          # and getting it wrong is the classic "the page loads but has no
+          # CSS" on GitHub Pages.
+          #
+          # AT CUTOVER — when app-appraisal.com's DNS is moved to GitHub and
+          # the domain is entered in Settings → Pages — change these two lines
+          # back together, and nothing else needs editing:
+          #
+          #     SITE_URL: https://app-appraisal.com
+          #     SITE_BASE: /
+          #
+          # They are pinned rather than read from `configure-pages` so the
+          # published URLs are never a surprise: canonical tags, the sitemap
+          # and og:url all come from SITE_URL.
+          SITE_URL: https://osify.github.io
+          SITE_BASE: /appa-website
         run: npm run build
 
       - name: Upload artifact
