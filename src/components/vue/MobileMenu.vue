@@ -9,7 +9,7 @@
  * Everything in this drawer is duplicated in the static footer, so a visitor
  * without JavaScript can still reach every page.
  */
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 interface NavItem {
   label: string;
@@ -34,19 +34,27 @@ const props = defineProps<{
   closeLabel: string;
   menuLabel: string;
   currentPath: string;
+  allServicesLabel: string;
 }>();
 
 const open = ref(false);
 const panel = ref<HTMLElement | null>(null);
 const toggleButton = ref<HTMLButtonElement | null>(null);
 
-/** Flatten parents and their children into one list for the drawer. */
-const flatItems = computed(() =>
-  props.items.flatMap((item) => [item, ...(item.children ?? []).map((c) => ({ ...c, child: true }))]),
-);
-
 function isCurrent(href: string) {
   return props.currentPath === href || props.currentPath === `${href}/`;
+}
+
+/** Inside a section (e.g. on /services/business), so start that section expanded. */
+function isWithin(href: string) {
+  return isCurrent(href) || props.currentPath.startsWith(`${href}/`);
+}
+
+/** Which parent (by href) has its children showing. Tapping a parent toggles it. */
+const expanded = ref<string | null>(props.items.find((item) => item.children?.length && isWithin(item.href))?.href ?? null);
+
+function toggleSection(href: string) {
+  expanded.value = expanded.value === href ? null : href;
 }
 
 function close() {
@@ -157,15 +165,50 @@ onBeforeUnmount(() => {
         class="fixed inset-x-0 top-16 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-white/10 bg-navy-900 px-6 py-6"
       >
         <ul class="flex flex-col">
-          <li v-for="item in flatItems" :key="item.href">
+          <li v-for="item in items" :key="item.href">
+            <template v-if="item.children?.length">
+              <!-- A parent with children opens its list in place; it never navigates. -->
+              <button
+                type="button"
+                class="flex w-full items-center justify-between border-b border-white/5 py-3 text-left transition-colors hover:text-gold-400"
+                :class="isWithin(item.href) ? 'text-gold-400' : 'text-white/85'"
+                :aria-expanded="expanded === item.href"
+                :aria-controls="`mobile-sub-${item.href.replace(/W+/g, '-')}`"
+                @click="toggleSection(item.href)"
+              >
+                {{ item.label }}
+                <svg
+                  class="h-4 w-4 transition-transform duration-200"
+                  :class="expanded === item.href ? 'rotate-180' : ''"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <ul v-show="expanded === item.href" :id="`mobile-sub-${item.href.replace(/W+/g, '-')}`">
+                <li v-for="child in [{ label: allServicesLabel, href: item.href }, ...item.children]" :key="child.href">
+                  <a
+                    :href="child.href"
+                    :aria-current="isCurrent(child.href) ? 'page' : undefined"
+                    class="block border-b border-white/5 py-3 pl-4 text-sm transition-colors hover:text-gold-400"
+                    :class="isCurrent(child.href) ? 'text-gold-400' : 'text-white/60'"
+                    @click="close"
+                  >
+                    {{ child.label }}
+                  </a>
+                </li>
+              </ul>
+            </template>
             <a
+              v-else
               :href="item.href"
               :aria-current="isCurrent(item.href) ? 'page' : undefined"
               class="block border-b border-white/5 py-3 transition-colors hover:text-gold-400"
-              :class="[
-                (item as { child?: boolean }).child ? 'pl-4 text-sm text-white/60' : 'text-white/85',
-                isCurrent(item.href) ? 'text-gold-400' : '',
-              ]"
+              :class="isCurrent(item.href) ? 'text-gold-400' : 'text-white/85'"
               @click="close"
             >
               {{ item.label }}

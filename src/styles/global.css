@@ -241,7 +241,8 @@ html[lang='km'] .microlabel {
   transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .link-underline:hover,
-.link-underline[aria-current='page'] {
+.link-underline[aria-current='page'],
+.link-underline[data-current] {
   background-size: 100% 1px;
 }
 
