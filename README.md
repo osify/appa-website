@@ -210,8 +210,8 @@ Content owners: see the checklist at the end of
 2. **All Khmer is an unreviewed AI draft** and is not publishable copy.
 
 Also outstanding: the terms and privacy documents are drafts needing legal review;
-and no photography or logo artwork has been supplied beyond the Chairman's
-portrait.
+and no photography has been supplied (the Chairman's portrait was removed at the
+client's request, 29 Oct 2026). The logo is the supplied PNG in `public/images/logo/`.
 
 ---
 

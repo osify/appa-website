@@ -13,22 +13,18 @@
       "km": "ប្រធាន"
     },
     "bio": {
-      "en": "A real estate professional with over 20 years of experience in Cambodia's property sector. He is the Chairman of Juwai Cambodia, where he leads the growth and development of a globally connected real estate platform in Cambodia. He also serves as President of the Cambodian Valuers and Estate Agents Association (CVEA), Chairman of Asia Pacific Property Appraisal, and Chairperson of the Judging Panel for the PropertyGuru Cambodia Property Awards — contributing to the advancement of professional standards and practices in real estate valuation, agency and investment.",
-      "km": "អ្នកជំនាញអចលនទ្រព្យដែលមានបទពិសោធន៍ជាង ២០ ឆ្នាំក្នុងវិស័យអចលនទ្រព្យកម្ពុជា។ លោកជាប្រធាន Juwai Cambodia ដែលលោកដឹកនាំការរីកចម្រើន និងការអភិវឌ្ឍវេទិកាអចលនទ្រព្យភ្ជាប់ជាសកលនៅកម្ពុជា។ លោកក៏បម្រើការជាប្រធានសមាគមអ្នកវាយតម្លៃ និងភ្នាក់ងារអចលនទ្រព្យកម្ពុជា (CVEA) ជាប្រធានក្រុមហ៊ុន Asia Pacific Property Appraisal និងជាប្រធានគណៈវិនិច្ឆ័យនៃ PropertyGuru Cambodia Property Awards ដោយរួមចំណែកលើកកម្ពស់ស្តង់ដារ និងការអនុវត្តវិជ្ជាជីវៈក្នុងវិស័យវាយតម្លៃអចលនទ្រព្យ ភ្នាក់ងារ និងវិនិយោគ។"
+      "en": "A real estate professional with over 20 years of experience in Cambodia's property sector. He is the Chairman of Juwai Cambodia, where he leads the growth and development of a globally connected real estate platform in Cambodia. He is also a founding member of the Cambodian Valuers and Estate Agents Association (CVEA) and Chairman of Asia Pacific Property Appraisal.",
+      "km": "អ្នកជំនាញអចលនទ្រព្យដែលមានបទពិសោធន៍ជាង ២០ ឆ្នាំក្នុងវិស័យអចលនទ្រព្យកម្ពុជា។ លោកជាប្រធាន Juwai Cambodia ដែលលោកដឹកនាំការរីកចម្រើន និងការអភិវឌ្ឍវេទិកាអចលនទ្រព្យភ្ជាប់ជាសកលនៅកម្ពុជា។ លោកក៏ជាសមាជិកស្ថាបនិកនៃសមាគមអ្នកវាយតម្លៃ និងភ្នាក់ងារអចលនទ្រព្យកម្ពុជា (CVEA) និងជាប្រធានក្រុមហ៊ុន Asia Pacific Property Appraisal។"
     },
     "qualifications": [
       { "en": "MBA — Norton University", "km": "MBA — សាកលវិទ្យាល័យន័រតុន" },
       { "en": "BBA — National University of Management", "km": "BBA — សាកលវិទ្យាល័យជាតិគ្រប់គ្រង" }
     ],
     "memberships": [
-      { "en": "President, CVEA", "km": "ប្រធាន, CVEA" },
-      {
-        "en": "Chair of Judges, PropertyGuru Cambodia Property Awards",
-        "km": "ប្រធានគណៈវិនិច្ឆ័យ, PropertyGuru Cambodia Property Awards"
-      },
+      { "en": "Founding Member, CVEA", "km": "សមាជិកស្ថាបនិក, CVEA" },
       { "en": "Chairman, Juwai Cambodia", "km": "ប្រធាន, Juwai Cambodia" }
     ],
-    "photo": "/images/leadership/sorn-seap.jpg",
+    "photo": "",
     "onHomepage": true
   },
   {

@@ -91,6 +91,8 @@ const partners = defineCollection({
     /** The firm the partner leads — shown under their name. */
     institution: i18nField,
     country: i18nField,
+    /** One line, e.g. "B.Com (VPM), New Zealand; MRICS". Omit to hide it. */
+    qualifications: i18nField.optional(),
     /** Rendered as pills. Keep each one to a few words. */
     expertise: i18nList.default([]),
     /** Both optional — an empty string hides the link rather than dead-ending. */

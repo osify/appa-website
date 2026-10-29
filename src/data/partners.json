@@ -8,21 +8,25 @@
       "km": "លោក Milton Tan"
     },
     "position": {
-      "en": "Managing Director",
-      "km": "នាយកគ្រប់គ្រង"
+      "en": "Founder & Managing Director",
+      "km": "ស្ថាបនិក និងនាយកគ្រប់គ្រង"
     },
     "institution": {
-      "en": "Twin Pillars Holdings Pte Ltd",
-      "km": "Twin Pillars Holdings Pte Ltd"
+      "en": "Twin Pillars Holding Pte. Ltd.",
+      "km": "Twin Pillars Holding Pte. Ltd."
     },
     "country": {
       "en": "Singapore",
       "km": "សិង្ហបុរី"
     },
+    "qualifications": {
+      "en": "B.Com (VPM), New Zealand; MRICS",
+      "km": "B.Com (VPM) ប្រទេសនូវែលសេឡង់; MRICS"
+    },
     "expertise": [
-      { "en": "Plant and machinery valuation", "km": "ការវាយតម្លៃរោងចក្រ និងគ្រឿងចក្រ" }
+      { "en": "Plant and Machinery Valuation", "km": "ការវាយតម្លៃរោងចក្រ និងគ្រឿងចក្រ" }
     ],
-    "website": "",
+    "website": "https://twinpillars.asia",
     "linkedin": "",
     "photo": ""
   },
@@ -35,8 +39,8 @@
       "km": "លោក Siong Yoong"
     },
     "position": {
-      "en": "Founder and CEO",
-      "km": "ស្ថាបនិក និងនាយកប្រតិបត្តិ"
+      "en": "Founder & Chief Executive Officer (CEO)",
+      "km": "ស្ថាបនិក និងនាយកប្រតិបត្តិ (CEO)"
     },
     "institution": {
       "en": "VALLARIS",
@@ -47,13 +51,13 @@
       "km": "សិង្ហបុរី"
     },
     "expertise": [
-      { "en": "Mergers and acquisitions", "km": "ការរួមបញ្ចូល និងទិញយកអាជីវកម្ម" },
-      { "en": "Business valuation", "km": "ការវាយតម្លៃអាជីវកម្ម" },
-      { "en": "Financial due diligence", "km": "ការត្រួតពិនិត្យហិរញ្ញវត្ថុ" },
-      { "en": "Forensic accounting", "km": "គណនេយ្យស៊ើបអង្កេត" }
+      { "en": "Mergers & Acquisitions", "km": "ការរួមបញ្ចូល និងទិញយកអាជីវកម្ម" },
+      { "en": "Business Valuation", "km": "ការវាយតម្លៃអាជីវកម្ម" },
+      { "en": "Financial Due Diligence", "km": "ការត្រួតពិនិត្យហិរញ្ញវត្ថុ" },
+      { "en": "Forensic Accounting", "km": "គណនេយ្យស៊ើបអង្កេត" }
     ],
     "website": "https://thevallaris.com",
-    "linkedin": "https://www.linkedin.com/in/siongyoong",
+    "linkedin": "",
     "photo": ""
   }
 ]

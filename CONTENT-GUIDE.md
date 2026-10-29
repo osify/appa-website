@@ -151,6 +151,7 @@ changing the values — nothing else needs to be touched.
 each entry carries their `institution` and `country` rather than an APP job
 title.
 
+- `qualifications` is optional — one line of text, e.g. `B.Com (VPM), New Zealand; MRICS`.
 - `expertise` is the list of gold pills. A few words each.
 - `website` and `linkedin` are optional — leave either as `""` and that link
   simply does not appear.
@@ -360,7 +361,7 @@ the content-plan workbook.
 | 3 | Native Khmer review of every string | `km.json`, `services.json`, `leadership.json`, `partners.json`, all `.md`. The Khmer pages are built but unpublished (`khmer.published`) until this is done |
 | 4 | Legal review of the terms and privacy drafts | `src/content/legal/` |
 | 5 | Official public-holiday list + the seven missing holiday names | `holidays.json`. The block is hidden for now (`features.holidays`), so this is only needed if it is switched back on |
-| 6 | The real APP wordmark as an SVG | `public/images/`, then `Logo.astro` |
+| 6 | ~~The real APP wordmark~~ — done: supplied PNG in `public/images/logo/` (an SVG would still be sharper) | `Logo.astro` |
 | 7 | Photography: hero, about, three services | `public/images/`. Portraits are settled — only Mr. Sorn Seap has one, the other three are monograms by decision |
 | 8 | Written permission before using the IVS / RICS logos | `standards.json` → `logo` |
 | 9 | Facebook URL, LinkedIn if one exists, Telegram | `site.json` → `social` |

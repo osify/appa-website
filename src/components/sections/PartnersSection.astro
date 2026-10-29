@@ -43,7 +43,8 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
           {partners.map((partner) => {
             const name = pick(partner.data.name, lang);
             const expertise = pickList(partner.data.expertise, lang);
-            const { website, linkedin, photo, initials } = partner.data;
+            const qualifications = partner.data.qualifications && pick(partner.data.qualifications, lang);
+            const { website, linkedin, photo } = partner.data;
 
             return (
               <article class="reveal flex flex-col rounded-3xl border border-navy-900/[0.07] bg-white p-8 transition-all hover:-translate-y-1 hover:shadow-xl">
@@ -56,17 +57,12 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
                       loading="lazy"
                       decoding="async"
                     />
-                  ) : (
-                    <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-navy-900">
-                      <span aria-hidden="true" class="font-serif text-lg font-semibold text-gold-500">
-                        {initials}
-                      </span>
-                    </div>
-                  )}
+                  ) : null}
 
                   <div>
-                    <h3 class="font-serif text-xl font-semibold">{name}</h3>
-                    <p class="mt-1 text-sm text-slate-500">{pick(partner.data.position, lang)}</p>
+                    <h3 class="font-serif text-2xl font-semibold leading-tight lg:text-3xl">{name}</h3>
+                    <span aria-hidden="true" class="mt-3 block h-0.5 w-10 bg-gold-500" />
+                    <p class="mt-3 text-sm text-slate-500">{pick(partner.data.position, lang)}</p>
                     <p class="mt-2 text-sm font-semibold text-navy-900">
                       {pick(partner.data.institution, lang)}
                     </p>
@@ -76,6 +72,15 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
                     </p>
                   </div>
                 </div>
+
+                {qualifications && (
+                  <div class="mt-6 border-t border-navy-900/[0.07] pt-5">
+                    <h4 class="microlabel mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                      {t('leadership.qualifications')}
+                    </h4>
+                    <p class="text-sm text-slate-500">{qualifications}</p>
+                  </div>
+                )}
 
                 {expertise.length > 0 && (
                   <div class="mt-6 border-t border-navy-900/[0.07] pt-5">

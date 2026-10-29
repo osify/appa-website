@@ -4,9 +4,8 @@
  *
  * `featured` renders the wide dark card used for the Chairman; everything else
  * renders as a sand tile. With no photograph (photo: "" in
- * src/data/leadership.json) the card shows a monogram, which looks intentional
- * rather than broken — and for everyone but the Chairman that is the settled
- * presentation, not a placeholder waiting on a file.
+ * src/data/leadership.json) the image block is left out entirely and the name
+ * carries the card — that is the settled presentation, not a placeholder.
  */
 import type { CollectionEntry } from 'astro:content';
 import { pick, pickList, useTranslations, type Locale } from '../i18n/utils';
@@ -21,7 +20,7 @@ interface Props {
 const { lang, person, detailed = false } = Astro.props;
 const t = useTranslations(lang);
 
-const { featured, initials, photo } = person.data;
+const { featured, photo } = person.data;
 const name = pick(person.data.name, lang);
 const role = pick(person.data.role, lang);
 const bio = pick(person.data.bio, lang);
@@ -35,30 +34,23 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
     <article class="reveal relative flex flex-col items-start gap-8 overflow-hidden rounded-3xl bg-navy-900 p-8 sm:col-span-2 sm:flex-row lg:p-10">
       <div class="barcode barcode-soft absolute bottom-0 right-0 h-24 w-full text-gold-500 opacity-[0.06]" />
 
-      <div class="shrink-0">
-        {photo ? (
-          <img
-            src={`${base}${photo}`}
-            alt={name}
-            class="h-28 w-28 rounded-2xl object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <div class="flex h-28 w-28 items-center justify-center rounded-2xl bg-slate-500">
-            <span aria-hidden="true" class="font-serif text-3xl font-semibold text-white">
-              {initials}
-            </span>
-          </div>
-        )}
-      </div>
+      {photo && (
+        <img
+          src={`${base}${photo}`}
+          alt={name}
+          class="h-28 w-28 shrink-0 rounded-2xl object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
 
       <div class="relative">
         <p class="microlabel text-[10px] font-bold uppercase tracking-[0.18em] text-gold-500">
           {role}
         </p>
-        <h3 class="mt-2 font-serif text-2xl font-semibold text-white lg:text-3xl">{name}</h3>
-        <p class="mt-4 leading-relaxed text-white/60">{bio}</p>
+        <h3 class="mt-3 font-serif text-3xl font-semibold leading-tight text-white lg:text-5xl">{name}</h3>
+        <span aria-hidden="true" class="mt-5 block h-0.5 w-12 bg-gold-500" />
+        <p class="mt-5 max-w-3xl leading-relaxed text-white/60">{bio}</p>
 
         {detailed && qualifications.length > 0 && (
           <div class="mt-6">
@@ -86,7 +78,7 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
     </article>
   ) : (
     <article class="reveal group rounded-3xl border border-navy-900/[0.05] bg-sand p-8 transition-all hover:-translate-y-1 hover:shadow-xl">
-      {photo ? (
+      {photo && (
         <img
           src={`${base}${photo}`}
           alt={name}
@@ -94,16 +86,11 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
           loading="lazy"
           decoding="async"
         />
-      ) : (
-        <div class="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-slate-500">
-          <span aria-hidden="true" class="font-serif text-xl font-semibold text-white">
-            {initials}
-          </span>
-        </div>
       )}
 
       <p class="microlabel text-[10px] font-bold uppercase tracking-[0.18em] text-gold-600">{role}</p>
-      <h3 class="mt-2 font-serif text-xl font-semibold">{name}</h3>
+      <h3 class="mt-3 font-serif text-2xl font-semibold leading-tight lg:text-3xl">{name}</h3>
+      <span aria-hidden="true" class="mt-4 block h-0.5 w-10 bg-gold-500" />
       <p class="mt-4 text-sm leading-relaxed text-slate-500">{bio}</p>
 
       {detailed && qualifications.length > 0 && (
